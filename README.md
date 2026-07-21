@@ -39,5 +39,9 @@ public.
 
 ## Deploy
 
-Push to GitHub and import in Vercel (same flow as ember / stock-news).
-No env vars needed — it's fully static.
+Live at https://portfolio-navy-nu-57.vercel.app (Vercel project
+`luppielizs-projects/portfolio`). Fully static, no env vars.
+
+- Direct deploy: `vercel --prod`
+- After connecting GitHub (see "Portfolio Maintenance Guide.docx" on the
+  Desktop): `git push` auto-deploys.
