@@ -826,6 +826,7 @@ footer .egg-hint {
 }
 .proj-gallery img {
   width: 100%;
+  height: auto; /* keep intrinsic ratio — width/height attrs only reserve space */
   display: block;
   border: 1px solid var(--hairline);
 }
