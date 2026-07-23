@@ -52,7 +52,7 @@ export const CARDS: Card[] = [
       summary:
         "An OCR pipeline built with Waftech for Grab — turning stacks of HR documents into structured, searchable data instead of paperwork.",
       gallery: [
-        { src: "/work/gallery/grab-waftech-1.png", alt: "Grab × Waftech pipeline board" },
+        { src: "/work/gallery/grab-waftech-1.jpg", alt: "Grab × Waftech pipeline board" },
       ],
       linkLabel: "view on behance →",
     },
@@ -90,7 +90,7 @@ export const CARDS: Card[] = [
       summary:
         "Nearly a third of car-accident fatalities trace back to poor roads. HOTPOTS is an end-to-end IoT solution: a car-mounted device detects potholes as you drive, notifies the relevant authorities, and turns the collected data into actionable insights.",
       gallery: [
-        { src: "/work/gallery/hotpots-1.png", alt: "HOTPOTS pipeline board" },
+        { src: "/work/gallery/hotpots-1.jpg", alt: "HOTPOTS pipeline board" },
       ],
       linkLabel: "view on behance →",
     },
@@ -226,9 +226,9 @@ export const CARDS: Card[] = [
       summary:
         "A tuition and home-based-learning app concept — EDUKUEH pairs local kueh characters with study tools to make revision less of a chore.",
       gallery: [
-        { src: "/work/gallery/edukueh-1.png", alt: "EDUKUEH branding" },
-        { src: "/work/gallery/edukueh-2.png", alt: "EDUKUEH screens" },
-        { src: "/work/gallery/edukueh-3.png", alt: "EDUKUEH screens" },
+        { src: "/work/gallery/edukueh-1.jpg", alt: "EDUKUEH branding" },
+        { src: "/work/gallery/edukueh-2.jpg", alt: "EDUKUEH screens" },
+        { src: "/work/gallery/edukueh-3.jpg", alt: "EDUKUEH screens" },
       ],
       linkLabel: "view on behance →",
     },
@@ -283,10 +283,10 @@ export const CARDS: Card[] = [
       summary:
         "Final-year project at Temasek Polytechnic — a full product concept taken from research through to interface.",
       gallery: [
-        { src: "/work/gallery/osmose-1.png", alt: "OSMOSE board" },
-        { src: "/work/gallery/osmose-2.png", alt: "OSMOSE board" },
-        { src: "/work/gallery/osmose-3.png", alt: "OSMOSE board" },
-        { src: "/work/gallery/osmose-4.png", alt: "OSMOSE board" },
+        { src: "/work/gallery/osmose-1.jpg", alt: "OSMOSE board" },
+        { src: "/work/gallery/osmose-2.jpg", alt: "OSMOSE board" },
+        { src: "/work/gallery/osmose-3.jpg", alt: "OSMOSE board" },
+        { src: "/work/gallery/osmose-4.jpg", alt: "OSMOSE board" },
       ],
       linkLabel: "view on behance →",
     },
@@ -317,9 +317,9 @@ export const CARDS: Card[] = [
       summary:
         "Brand identity for a courier service — logotype, palette, and collateral for parcels that actually look fun to receive.",
       gallery: [
-        { src: "/work/gallery/parcelvy-1.png", alt: "ParcelVy identity" },
-        { src: "/work/gallery/parcelvy-2.png", alt: "ParcelVy identity" },
-        { src: "/work/gallery/parcelvy-3.png", alt: "ParcelVy collateral" },
+        { src: "/work/gallery/parcelvy-1.jpg", alt: "ParcelVy identity" },
+        { src: "/work/gallery/parcelvy-2.jpg", alt: "ParcelVy identity" },
+        { src: "/work/gallery/parcelvy-3.jpg", alt: "ParcelVy collateral" },
       ],
       linkLabel: "view on behance →",
     },
@@ -355,10 +355,10 @@ export const CARDS: Card[] = [
       summary:
         "A typography series about having nothing to say — and saying it beautifully anyway.",
       gallery: [
-        { src: "/work/gallery/nothing-1.png", alt: "Nothing series poster" },
-        { src: "/work/gallery/nothing-2.png", alt: "Nothing series poster" },
-        { src: "/work/gallery/nothing-3.png", alt: "Nothing series poster" },
-        { src: "/work/gallery/nothing-4.png", alt: "Nothing series poster" },
+        { src: "/work/gallery/nothing-1.jpg", alt: "Nothing series poster" },
+        { src: "/work/gallery/nothing-2.jpg", alt: "Nothing series poster" },
+        { src: "/work/gallery/nothing-3.jpg", alt: "Nothing series poster" },
+        { src: "/work/gallery/nothing-4.jpg", alt: "Nothing series poster" },
       ],
       linkLabel: "view on behance →",
     },
