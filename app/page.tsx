@@ -1,125 +1,103 @@
-"use client";
-
-import { useMemo, useState } from "react";
-import { CATEGORIES, PROJECTS, type Category } from "@/lib/projects";
-import TileArt from "@/components/TileArt";
+import PixelCursor from "@/components/PixelCursor";
+import Headline from "@/components/Headline";
+import VoxelAvatar from "@/components/VoxelAvatar";
+import StatBars from "@/components/StatBars";
+import Specimens from "@/components/Specimens";
+import WorkGrid from "@/components/WorkGrid";
+import TerminalEasterEgg from "@/components/TerminalEasterEgg";
 
 export default function Home() {
-  const [filter, setFilter] = useState<Category | "all">("all");
-
-  const shown = useMemo(
-    () =>
-      filter === "all"
-        ? PROJECTS
-        : PROJECTS.filter((p) => p.categories.includes(filter)),
-    [filter]
-  );
-
   return (
-    <main className="shell">
-      <header className="masthead">
-        <p className="prompt">elizabeth@sg:~$ whoami</p>
-        <h1>
-          Security engineer with a <em>designer&rsquo;s</em> eye.
-        </h1>
-        <p className="intro">
-          I&rsquo;m Elizabeth Lee — I secure systems for a living and design
-          things because I can&rsquo;t help it. Interior architecture at Temasek
-          Poly, computer science at SMU, now security automation &amp; detection
-          engineering at NCS — and when I&rsquo;m off the clock, underwater
-          with a macro lens or in a hide waiting on an owl. The work below
-          spans all of it — scroll through, or filter to find what you came
-          for.
-        </p>
-        <nav className="links" aria-label="Profiles">
+    <>
+      <PixelCursor />
+
+      <header>
+        <div className="prompt">
+          <span className="path">elizabeth@sg</span>:~$ whoami
+          <span className="caret"></span>
+        </div>
+        <nav>
           <a href="mailto:ensignpotato@gmail.com">email</a>
-          <a
-            href="https://sg.linkedin.com/in/lizabethlee"
-            target="_blank"
-            rel="noreferrer"
-          >
-            linkedin
-          </a>
-          <a
-            href="https://www.behance.net/lizabethmarielee"
-            target="_blank"
-            rel="noreferrer"
-          >
-            behance
-          </a>
-          <a
-            href="https://www.instagram.com/luppiesnaps/"
-            target="_blank"
-            rel="noreferrer"
-          >
-            photos
-          </a>
-          <a
-            href="https://www.instagram.com/itslupiedoodles/"
-            target="_blank"
-            rel="noreferrer"
-          >
-            doodles
-          </a>
+          <a href="https://sg.linkedin.com/in/lizabethlee">linkedin</a>
+          <a href="https://www.behance.net/lizabethmarielee">behance</a>
+          <a href="https://www.instagram.com/luppiesnaps/">photos</a>
+          <a href="https://www.instagram.com/itslupiedoodles/">doodles</a>
         </nav>
       </header>
 
-      <div className="filters" role="tablist" aria-label="Filter projects">
-        {CATEGORIES.map((c) => (
-          <button
-            key={c.key}
-            role="tab"
-            aria-selected={filter === c.key}
-            className={`chip${filter === c.key ? " active" : ""}`}
-            onClick={() => setFilter(c.key)}
-          >
-            {c.label}
-          </button>
-        ))}
-        <span className="count">
-          {shown.length}/{PROJECTS.length}
-        </span>
-      </div>
+      <section className="hero">
+        <div className="hero-copy">
+          <p className="eyebrow">field notes · singapore · est. observation 2020—</p>
+          <Headline />
+          <div className="lede">
+            <p>
+              A multidisciplinary designer, creator, engineer and storyteller.
+              I like fast proofs-of-concept, the kind that ship in hours, not
+              days. If I think something should exist, I build it. An
+              interface, a website, a tool, a process.
+            </p>
+            <p>
+              The path here was one question at a time. I started in interior
+              design, learning to bring the beautiful spaces in my mind to
+              life. Then I thought: <em>why not build websites for my spaces
+              to live?</em> So I studied computer science, picking up UI·UX
+              and engineering along the way. Then:{" "}
+              <em>what if my websites get hacked?</em> So, cybersecurity it
+              is! School ended but my passion for learning and building
+              didn&rsquo;t. These days I build, test, ship and optimise
+              cybersecurity tools whilst exploring what this world has to
+              offer, underwater and on land ;)
+            </p>
+            <p className="locked">
+              I&rsquo;m still building my story —{" "}
+              <a href="#work">the chapters so far are below</a>.
+            </p>
+          </div>
+        </div>
 
-      <section className="grid">
-        {shown.map((p, i) => {
-          const Tag = p.href ? "a" : "div";
-          return (
-            <Tag
-              key={`${filter}-${p.id}`}
-              className={`tile${p.tall ? " tall" : ""}`}
-              style={{ animationDelay: `${Math.min(i * 40, 400)}ms` }}
-              {...(p.href
-                ? { href: p.href, target: "_blank", rel: "noreferrer" }
-                : {})}
-            >
-              <span className="art">
-                {p.image ? (
-                  // eslint-disable-next-line @next/next/no-img-element
-                  <img src={p.image} alt={p.title} loading="lazy" />
-                ) : (
-                  <TileArt category={p.categories[0]} seed={p.id.length + i} />
-                )}
+        <aside className="char-card" aria-label="character sheet">
+          <div className="char-head">
+            <span>character select</span>
+            <span>npc: false</span>
+          </div>
+          <div className="char-body">
+            <div className="char-avatar">
+              <VoxelAvatar />
+              <span className="drag-hint" aria-hidden="true">
+                ◄ drag to rotate ►
               </span>
-              <span className="caption">
-                <span className="title">{p.title}</span>
-                {p.note && <span className="note">{p.note}</span>}
-              </span>
-            </Tag>
-          );
-        })}
-        {shown.length === 0 && (
-          <p className="empty">nothing here yet — check back soon</p>
-        )}
+            </div>
+            <StatBars />
+          </div>
+        </aside>
       </section>
 
-      <footer className="footer">
-        <p className="hail">
-          Want the full corporate portfolio?{" "}
-          <a href="mailto:ensignpotato@gmail.com">Drop me an email.</a>
-        </p>
-        <p className="fine">elizabeth lee · singapore · {new Date().getFullYear()}</p>
+      <Specimens />
+
+      <WorkGrid />
+
+      <section className="cta">
+        <div>
+          <h2>
+            The professional dossier{" "}
+            <span className="no-net">isn&rsquo;t on the internet.</span>
+          </h2>
+          <p className="hint">on purpose. it&rsquo;s better in person anyway.</p>
+        </div>
+        <a
+          className="btn"
+          href="mailto:ensignpotato@gmail.com?subject=Okay%2C%20I%27m%20curious"
+        >
+          request access →
+        </a>
+      </section>
+
+      <footer>
+        <span>elizabeth lee · singapore · 2026</span>
+        <span className="egg-hint">psst — try typing whoami</span>
       </footer>
-    </main>
+
+      <TerminalEasterEgg />
+    </>
   );
 }

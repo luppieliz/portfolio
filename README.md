@@ -1,9 +1,12 @@
 # Elizabeth Lee — Portfolio
 
-Single-page portfolio: masonry scroll of all work with filter chips
-(All / Security / UX·UI / Interior / Graphic / Doodles), styled
-"terminal meets atelier" — warm paper background, serif headline,
-monospace `>` project labels, terminal-green accent. Mobile-first.
+"Pixel naturalist" design: paper/ink/coral/teal/acid palette, Fraunces
+display type, IBM Plex Mono body, Silkscreen micro-labels. Voxel avatar
+(three.js) with stat bars, pixelated work thumbnails that de-rez on
+hover, a "???" mystery filter with redacted cards, and a `whoami`
+terminal easter egg. The reference prototype lives at
+[design/pixel-naturalist.html](design/pixel-naturalist.html) — the page
+is a faithful port of it.
 
 ## Run
 
@@ -15,27 +18,24 @@ npm run dev   # http://localhost:3002
 
 Everything lives in [lib/projects.ts](lib/projects.ts):
 
-- Add/remove/reorder projects in the `PROJECTS` array.
-- `categories` — one or more of `security | uxui | interior | graphic | photo | doodles`
-  (a project can appear under several filters, e.g. StopSCAM).
-- `href` — where the tile links (Behance project page, Instagram, a write-up…).
-- `tall: true` — taller tile, for masonry rhythm.
+- `CARDS` — the work grid, in display order. Each card: `cat` (one of
+  `ux | graphic | photo | interior | doodles | mystery`), `catLabel`
+  (the small teal label), `name`, `sub`, `href`, `image` (a file under
+  `public/work/`). Cards with `redacted` instead of `image` render the
+  dark redacted style.
+- `FILTERS` — the filter buttons.
+- `STATS` — the character-sheet stat bars.
 
-## Replace the generated tile art with real images
+Intro copy and links: [app/page.tsx](app/page.tsx). Palette and all
+styling: [app/globals.css](app/globals.css). The voxel figure's
+geometry: [components/VoxelAvatar.tsx](components/VoxelAvatar.tsx)
+(box dimensions/positions are commented by body part).
 
-Real images live in `public/work/` — Behance covers plus Instagram pulls
-(`wildlife-owl`, `uw-stiliger`, `doodle-a`; spares: `uw-bornella`,
-`doodle-b`, `doodle-c`). Add a file there and set `image: "/work/name.jpg"`
-on the project. The generated SVG art is used only when `image` is not set
-(currently just the three security tiles).
+## Images
 
-The three security tiles (Detection Engineering, CVE Impact Graph, Security
-Automation) are summaries of day-job work — rewrite their titles/notes to
-whatever you can share publicly.
-
-The contact email is set to ensignpotato@gmail.com in
-[app/page.tsx](app/page.tsx) — change it if you want a different address
-public.
+Project images live in `public/work/`. Thumbnails are pixelated by
+canvas at ~26 columns and sharpen on hover — any reasonably sized
+image works; square or 4:3 crops look best.
 
 ## Deploy
 

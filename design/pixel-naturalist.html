@@ -1,0 +1,742 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Elizabeth Lee — I notice small things.</title>
+<meta name="description" content="Elizabeth Lee designs interfaces, builds websites, draws creatures, and photographs things smaller than your thumbnail. Singapore.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT,WONK@0,9..144,300..900,0..100,0..1;1,9..144,300..900,0..100,0..1&family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;1,400&family=Silkscreen:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#FAF6EE;
+  --ink:#17150F;
+  --coral:#FF5A48;
+  --teal:#0E6E64;
+  --acid:#DCE84B;
+  --redact:#26241E;
+  --hairline:rgba(23,21,15,.16);
+  --mono:'IBM Plex Mono',ui-monospace,monospace;
+  --pix:'Silkscreen',var(--mono);
+  --disp:'Fraunces',Georgia,serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  background:var(--paper);
+  color:var(--ink);
+  font-family:var(--mono);
+  font-size:15px;
+  line-height:1.65;
+  -webkit-font-smoothing:antialiased;
+}
+::selection{background:var(--acid);color:var(--ink)}
+a{color:inherit}
+
+/* ---------- custom pixel cursor ---------- */
+@media (pointer:fine){
+  body.cursor-on, body.cursor-on a, body.cursor-on button{cursor:none}
+  #pix-cursor{
+    position:fixed;top:0;left:0;z-index:9999;pointer-events:none;
+    width:22px;height:22px;
+    transform:translate(-4px,-2px);
+    image-rendering:pixelated;
+    transition:opacity .15s;
+  }
+  #pix-cursor svg{display:block;width:100%;height:100%}
+  #pix-cursor .glyph{display:none}
+  #pix-cursor[data-mode="arrow"] .g-arrow{display:block}
+  #pix-cursor[data-mode="mag"] .g-mag{display:block}
+  #pix-cursor[data-mode="block"] .g-block{display:block}
+  #pix-cursor[data-mode="mag"]{transform:translate(-11px,-11px)}
+  #pix-cursor[data-mode="block"]{transform:translate(-8px,-10px)}
+}
+@media (pointer:coarse){#pix-cursor{display:none}}
+
+/* ---------- top bar ---------- */
+header{
+  display:flex;justify-content:space-between;align-items:center;gap:16px;
+  padding:20px clamp(20px,5vw,56px);
+  border-bottom:1px solid var(--hairline);
+  flex-wrap:wrap;
+}
+.prompt{font-family:var(--mono);font-size:13px;letter-spacing:.02em}
+.prompt .path{color:var(--teal)}
+.prompt .caret{
+  display:inline-block;width:8px;height:15px;background:var(--coral);
+  vertical-align:text-bottom;margin-left:6px;
+  animation:blink 1.1s steps(1) infinite;
+}
+@keyframes blink{50%{opacity:0}}
+nav{display:flex;gap:18px;font-size:12.5px}
+nav a{text-decoration:none;border-bottom:2px solid transparent;padding-bottom:2px}
+nav a:hover,nav a:focus-visible{border-bottom-color:var(--coral)}
+a:focus-visible,button:focus-visible{outline:2px solid var(--teal);outline-offset:3px}
+
+/* ---------- hero ---------- */
+.hero{
+  padding:clamp(48px,9vh,110px) clamp(20px,5vw,56px) clamp(40px,7vh,80px);
+  max-width:1200px;
+  display:grid;
+  grid-template-columns:minmax(0,1fr) 480px;
+  gap:clamp(30px,5vw,70px);
+  align-items:start;
+}
+.hero-copy{min-width:0}
+@media (max-width:1100px){
+  .hero{grid-template-columns:1fr}
+  .char-card{max-width:480px}
+}
+.eyebrow{
+  font-family:var(--pix);font-size:11px;letter-spacing:.14em;
+  color:var(--teal);text-transform:lowercase;margin-bottom:22px;
+}
+h1{
+  font-family:var(--disp);
+  font-weight:560;
+  font-variation-settings:"opsz" 120,"SOFT" 0,"WONK" 1;
+  font-size:clamp(44px,8.4vw,104px);
+  line-height:1.02;
+  letter-spacing:-.015em;
+}
+h1 .w-build,h1 .w-break{display:inline-block;white-space:nowrap}
+h1 i{font-style:inherit;display:inline-block}
+.w-build{background:var(--acid);padding:0 .07em;line-height:1.08}
+.w-build i{animation:rise .55s cubic-bezier(.2,.9,.3,1.35) backwards}
+.w-build i:nth-child(1){animation-delay:.05s}
+.w-build i:nth-child(2){animation-delay:.12s}
+.w-build i:nth-child(3){animation-delay:.19s}
+.w-build i:nth-child(4){animation-delay:.26s}
+.w-build i:nth-child(5){animation-delay:.33s}
+.w-build i:nth-child(6){animation-delay:.40s}
+.w-build i:nth-child(7){animation-delay:.47s}
+.w-build i:nth-child(8){animation-delay:.54s}
+@keyframes rise{from{transform:translateY(.7em);opacity:0}to{transform:translateY(0);opacity:1}}
+.w-break{color:var(--coral);font-style:italic}
+.w-break i{animation:crack 4.2s steps(1) infinite}
+.w-break i:nth-child(odd){animation-delay:.07s}
+.w-break i:nth-child(3n){animation-delay:.14s}
+@keyframes crack{
+  0%,90%{transform:none}
+  92%{transform:translate(.045em,-.05em) rotate(1.6deg)}
+  94%{transform:translate(-.05em,.035em) rotate(-1.1deg)}
+  96%{transform:translate(.03em,.045em)}
+  98%{transform:none}
+}
+.hero .lede{
+  margin-top:34px;max-width:620px;
+  display:grid;gap:18px;
+}
+.hero .lede p{font-size:15.5px}
+.hero .lede em{font-style:normal;background:linear-gradient(transparent 62%,rgba(220,232,75,.9) 62%)}
+.hero .lede .locked{color:var(--teal)}
+.hero .lede .locked a{text-decoration-color:var(--coral);text-decoration-thickness:2px;text-underline-offset:3px}
+
+/* ---------- specimen strip ---------- */
+.specimens{
+  display:flex;gap:clamp(24px,6vw,80px);flex-wrap:wrap;
+  padding:26px clamp(20px,5vw,56px);
+  border-top:1px solid var(--hairline);
+  border-bottom:1px solid var(--hairline);
+  align-items:flex-end;
+}
+.spec{display:flex;align-items:flex-end;gap:14px}
+.spec svg{image-rendering:pixelated;shape-rendering:crispEdges;display:block}
+.spec .tag{font-family:var(--pix);font-size:10px;line-height:1.7;color:var(--ink);opacity:.75}
+.spec .tag b{display:block;color:var(--coral);font-weight:400}
+
+/* ---------- work ---------- */
+.work{padding:clamp(40px,7vh,72px) clamp(20px,5vw,56px)}
+.work-head{display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:14px;margin-bottom:26px}
+h2{font-family:var(--disp);font-weight:520;font-size:clamp(26px,3.4vw,38px);letter-spacing:-.01em}
+.filters{display:flex;gap:8px;flex-wrap:wrap}
+.filters button{
+  font-family:var(--pix);font-size:10.5px;letter-spacing:.08em;
+  background:none;border:1px solid var(--hairline);color:var(--ink);
+  padding:7px 12px 5px;transition:all .15s;
+}
+.filters button:hover{border-color:var(--ink)}
+.filters button.on{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.filters button.mystery.on{background:var(--redact);color:var(--acid)}
+.grid{
+  display:grid;gap:22px;
+  grid-template-columns:repeat(auto-fill,minmax(250px,1fr));
+}
+.card{
+  text-decoration:none;display:block;
+  border:1px solid var(--hairline);
+  background:#fff;
+  transition:transform .18s, box-shadow .18s, border-color .18s;
+}
+.card:hover{transform:translate(-3px,-3px);box-shadow:5px 5px 0 var(--ink);border-color:var(--ink)}
+.card.hide{display:none}
+.thumb{
+  position:relative;aspect-ratio:4/3;overflow:hidden;
+  background:repeating-conic-gradient(rgba(23,21,15,.05) 0 25%,transparent 0 50%) 0 0/16px 16px;
+}
+.thumb img{width:100%;height:100%;object-fit:cover;display:block}
+.thumb canvas{
+  position:absolute;inset:0;width:100%;height:100%;
+  image-rendering:pixelated;opacity:0;transition:opacity .18s steps(3);
+}
+.thumb canvas.ready{opacity:1}
+.card:hover .thumb canvas.ready,
+.card:focus-visible .thumb canvas.ready{opacity:0}
+.card-meta{padding:12px 14px 14px;border-top:1px solid var(--hairline)}
+.card-meta .cat{font-family:var(--pix);font-size:9.5px;letter-spacing:.1em;color:var(--teal);display:block;margin-bottom:4px}
+.card-meta .name{font-size:14px;font-weight:600}
+.card-meta .sub{font-size:12px;opacity:.7;margin-top:2px}
+
+/* redacted cards */
+.card.redacted{background:var(--redact);color:var(--paper);border-color:var(--redact)}
+.card.redacted:hover{box-shadow:5px 5px 0 var(--coral)}
+.card.redacted .thumb{
+  background:var(--redact);
+  display:flex;align-items:center;justify-content:center;
+}
+.redline{
+  font-family:var(--mono);font-size:13px;color:var(--acid);
+  letter-spacing:.05em;text-align:center;line-height:2;
+}
+.redline .bar{
+  display:inline-block;background:var(--paper);color:var(--paper);
+  padding:0 6px;user-select:none;
+}
+.card.redacted:hover .bar{animation:glitch .5s steps(2) infinite}
+@keyframes glitch{
+  0%{transform:translate(0)}25%{transform:translate(-2px,1px)}
+  50%{transform:translate(2px,-1px)}75%{transform:translate(-1px,-1px)}100%{transform:translate(0)}
+}
+.card.redacted .card-meta{border-top-color:rgba(250,246,238,.2)}
+.card.redacted .cat{color:var(--acid)}
+.card.redacted .sub{opacity:.8}
+
+/* ---------- CTA ---------- */
+.cta{
+  margin:clamp(30px,6vh,60px) clamp(20px,5vw,56px);
+  border:1px solid var(--ink);
+  padding:clamp(28px,5vw,52px);
+  display:flex;justify-content:space-between;align-items:center;gap:28px;flex-wrap:wrap;
+  background:#fff;
+}
+.cta h2{max-width:520px}
+.cta h2 .no-net{background:linear-gradient(transparent 62%,rgba(255,90,72,.35) 62%)}
+.cta .hint{font-family:var(--pix);font-size:10px;color:var(--teal);margin-top:12px;letter-spacing:.1em}
+.btn{
+  font-family:var(--mono);font-weight:600;font-size:14px;
+  text-decoration:none;background:var(--ink);color:var(--paper);
+  padding:15px 26px;border:1px solid var(--ink);
+  transition:all .15s;white-space:nowrap;
+}
+.btn:hover{background:var(--coral);border-color:var(--coral);transform:translate(-2px,-2px);box-shadow:4px 4px 0 var(--ink)}
+
+footer{
+  padding:22px clamp(20px,5vw,56px) 34px;
+  font-size:12px;opacity:.65;display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;
+}
+footer .egg-hint{font-family:var(--pix);font-size:9.5px;letter-spacing:.1em}
+
+/* ---------- character sheet ---------- */
+.char-card{
+  background:transparent;
+}
+.char-head{
+  display:flex;justify-content:space-between;align-items:center;
+  color:var(--teal);
+  font-family:var(--pix);font-size:10px;letter-spacing:.14em;
+  padding:0 0 12px;
+}
+.char-head span:last-child{color:var(--coral)}
+.char-body{
+  display:grid;grid-template-columns:200px minmax(0,1fr);
+  gap:18px;align-items:center;
+}
+.char-avatar{
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;
+  overflow:hidden;
+}
+.char-avatar canvas{display:block;touch-action:none;max-width:100%}
+.drag-hint{font-family:var(--pix);font-size:8.5px;color:var(--teal);letter-spacing:.12em;user-select:none;opacity:.8}
+@media (max-width:540px){
+  .char-body{grid-template-columns:1fr}
+}
+.stats{display:grid;gap:11px;max-width:250px;align-content:center}
+.stat .row{
+  display:flex;justify-content:space-between;
+  font-family:var(--pix);font-size:9px;letter-spacing:.08em;margin-bottom:4px;
+}
+.stat .row .val{color:var(--coral)}
+.bar{height:10px;border:1px solid var(--ink);position:relative;background:transparent}
+.bar i{
+  position:absolute;top:1px;bottom:1px;left:1px;width:0;
+  transition:width 1.1s steps(14);
+  background:repeating-linear-gradient(90deg,var(--bc,var(--teal)) 0 6px,rgba(0,0,0,0) 6px 8px);
+}
+.stat:nth-child(odd) .bar i{--bc:var(--coral)}
+.stat:nth-child(even) .bar i{--bc:var(--teal)}
+
+/* ---------- terminal easter egg ---------- */
+#term{
+  position:fixed;inset:0;z-index:10000;display:none;
+  background:rgba(23,21,15,.92);
+  align-items:center;justify-content:center;padding:20px;
+}
+#term.open{display:flex}
+.term-win{
+  width:min(560px,100%);background:var(--redact);color:var(--paper);
+  border:1px solid var(--acid);box-shadow:8px 8px 0 rgba(220,232,75,.35);
+  font-family:var(--mono);font-size:13.5px;
+}
+.term-bar{display:flex;justify-content:space-between;padding:8px 12px;border-bottom:1px solid rgba(250,246,238,.2);font-family:var(--pix);font-size:10px;color:var(--acid)}
+.term-bar button{background:none;border:none;color:var(--paper);font-family:var(--mono);font-size:13px}
+.term-body{padding:16px 18px 22px;line-height:1.9;min-height:150px}
+.term-body .p{color:var(--acid)}
+.term-body a{color:var(--coral)}
+
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none!important;transition:none!important}
+  html{scroll-behavior:auto}
+}
+</style>
+</head>
+<body>
+
+<div id="pix-cursor" data-mode="arrow" aria-hidden="true">
+  <svg class="glyph g-arrow" viewBox="0 0 12 12"><path fill="#17150F" d="M1 0h1v1H1zM1 1h2v1H1zM1 2h3v1H1zM1 3h4v1H1zM1 4h5v1H1zM1 5h6v1H1zM1 6h7v1H1zM1 7h4v1H1zM1 8h2v1H1zM4 8h2v1H4zM5 9h2v1H5z"/><path fill="#FF5A48" d="M2 1h1v6H2z"/></svg>
+  <svg class="glyph g-mag" viewBox="0 0 16 16"><path fill="none" stroke="#17150F" stroke-width="2" d="M3 3h6v6H3z"/><path fill="#17150F" d="M9 9h2v2H9zM11 11h2v2h-2zM13 13h2v2h-2z"/><path fill="#DCE84B" d="M4 4h4v4H4z" opacity=".55"/></svg>
+  <svg class="glyph g-block" viewBox="0 0 12 14"><path fill="#DCE84B" d="M1 0h8v13H1z"/><path fill="#26241E" d="M2 2h6v2H2zM2 5h6v2H2zM2 8h4v2H2z"/></svg>
+</div>
+
+<header>
+  <div class="prompt"><span class="path">elizabeth@sg</span>:~$ whoami<span class="caret"></span></div>
+  <nav>
+    <a href="mailto:ensignpotato@gmail.com">email</a>
+    <a href="https://sg.linkedin.com/in/lizabethlee">linkedin</a>
+    <a href="https://www.behance.net/lizabethmarielee">behance</a>
+    <a href="https://www.instagram.com/luppiesnaps/">photos</a>
+    <a href="https://www.instagram.com/itslupiedoodles/">doodles</a>
+  </nav>
+</header>
+
+<section class="hero">
+  <div class="hero-copy">
+  <p class="eyebrow">field notes · singapore · est. observation 2020—</p>
+  <h1>Constantly <span class="w-build" aria-label="building"><i>b</i><i>u</i><i>i</i><i>l</i><i>d</i><i>i</i><i>n</i><i>g</i></span> &amp; <span class="w-break" aria-label="breaking"><i>b</i><i>r</i><i>e</i><i>a</i><i>k</i><i>i</i><i>n</i><i>g</i></span>.</h1>
+  <div class="lede">
+    <p>A multidisciplinary designer, creator, and storyteller. I like fast proofs-of-concept — the kind that ship in hours, not days. If I think something should exist, I build it: an interface, a website, a tool, a process.</p>
+    <p>The path here was one question at a time. I started in interior design, learning to shape beautiful spaces. Then: <em>why not build websites for my interiors?</em> So I studied computer science, picking up UI·UX and engineering along the way. Then: <em>what if my websites get hacked?</em> So, cybersecurity. School ended; the building didn't — these days I build, test, and ship security tooling from scratch, and quietly optimise every process I touch.</p>
+  </div>
+  </div>
+
+  <aside class="char-card" aria-label="character sheet">
+    <div class="char-head"><span>character select</span><span>npc: false</span></div>
+    <div class="char-body">
+      <div class="char-avatar">
+        <canvas id="avatar3d" width="188" height="216" aria-label="rotatable pixel avatar of Elizabeth"></canvas>
+        <span class="drag-hint">◄ drag to rotate ►</span>
+      </div>
+      <div class="stats" id="stats">
+        <div class="stat" data-v="95"><div class="row"><span>build speed</span><span class="val">95</span></div><div class="bar"><i></i></div></div>
+        <div class="stat" data-v="92"><div class="row"><span>threat perception</span><span class="val">92</span></div><div class="bar"><i></i></div></div>
+        <div class="stat" data-v="88"><div class="row"><span>ui·ux design</span><span class="val">88</span></div><div class="bar"><i></i></div></div>
+        <div class="stat" data-v="86"><div class="row"><span>wildlife photography</span><span class="val">86</span></div><div class="bar"><i></i></div></div>
+        <div class="stat" data-v="18"><div class="row"><span>colour restraint</span><span class="val">18</span></div><div class="bar"><i></i></div></div>
+      </div>
+    </div>
+  </aside>
+</section>
+
+<section class="specimens" aria-label="specimens">
+  <div class="spec">
+    <svg width="66" height="42" viewBox="0 0 22 14">
+      <path fill="#FF5A48" d="M3 8h16v3H3zM5 6h13v2H5zM8 5h8v1H8z"/>
+      <path fill="#DCE84B" d="M6 7h2v1H6zM10 6h2v1h-2zM14 7h2v1h-2zM8 9h2v1H8zM13 9h2v1h-2z"/>
+      <path fill="#17150F" d="M4 5h1v2H4zM6 4h1v2H6zM17 9h1v1h-1z"/>
+      <path fill="#0E6E64" d="M2 11h18v1H2z"/>
+    </svg>
+    <p class="tag"><b>specimen 001</b>stiliger sp. · 4mm · lembeh</p>
+  </div>
+  <div class="spec">
+    <svg width="48" height="54" viewBox="0 0 16 18">
+      <path fill="#0E6E64" d="M4 2h8v12H4zM3 4h1v9H3zM12 4h1v9h-1z"/>
+      <path fill="#FAF6EE" d="M5 5h2v2H5zM9 5h2v2H9z"/>
+      <path fill="#DCE84B" d="M6 5h1v1H6zM10 5h1v1h-1z"/>
+      <path fill="#FF5A48" d="M7 8h2v1H7z"/>
+      <path fill="#17150F" d="M5 14h2v2H5zM9 14h2v2H9zM6 1h1v1H6zM9 1h1v1H9z"/>
+    </svg>
+    <p class="tag"><b>specimen 002</b>buffy fish owl · patience: 3h+</p>
+  </div>
+  <div class="spec">
+    <svg width="42" height="48" viewBox="0 0 14 16">
+      <path fill="#17150F" d="M2 1h1v11H2zM3 2h1v9H3zM4 3h1v7H4zM5 4h1v5H5zM6 5h1v3H6zM7 6h1v1H7zM6 9h2v1H6zM7 10h2v2H7z"/>
+      <path fill="#FF5A48" d="M8 12h2v2H8z"/>
+    </svg>
+    <p class="tag"><b>specimen 003</b>cursor, domesticated · this one</p>
+  </div>
+</section>
+
+<section class="work" id="work">
+  <div class="work-head">
+    <h2>The visible work</h2>
+    <div class="filters" role="group" aria-label="filter work">
+      <button class="on" data-f="all">all</button>
+      <button data-f="ux">ux·ui</button>
+      <button data-f="graphic">graphic</button>
+      <button data-f="photo">photo</button>
+      <button data-f="interior">interior</button>
+      <button data-f="doodles">doodles</button>
+      <button data-f="mystery" class="mystery">???</button>
+    </div>
+  </div>
+  <div class="grid" id="grid">
+
+    <a class="card" data-cat="graphic" href="https://www.behance.net/gallery/188480449/StopSCAM">
+      <div class="thumb"><img src="https://portfolio-navy-nu-57.vercel.app/work/stopscam.jpg" alt="StopSCAM campaign" loading="lazy"><canvas></canvas></div>
+      <div class="card-meta"><span class="cat">graphic · campaign</span><span class="name">StopSCAM</span><div class="sub">anti-scam awareness, designed end-to-end</div></div>
+    </a>
+
+    <a class="card" data-cat="photo" href="https://www.instagram.com/p/Da-RIjxkkr4/">
+      <div class="thumb"><img src="https://portfolio-navy-nu-57.vercel.app/work/wildlife-owl.jpg" alt="Buffy fish owl" loading="lazy"><canvas></canvas></div>
+      <div class="card-meta"><span class="cat">photo · wildlife</span><span class="name">Wildlife</span><div class="sub">buffy fish owl · @luppiesnaps</div></div>
+    </a>
+
+    <a class="card redacted" data-cat="mystery" href="mailto:ensignpotato@gmail.com?subject=So%20what%20do%20you%20actually%20do%3F">
+      <div class="thumb"><div class="redline">&gt;&gt;·&gt;·&gt;·<br><span class="bar">redactedredacted</span><br>[ REDACTED ]</div></div>
+      <div class="card-meta"><span class="cat">weekdays · 9–6</span><span class="name">Classified-ish</span><div class="sub">ask me →</div></div>
+    </a>
+
+    <a class="card" data-cat="ux" href="https://www.behance.net/gallery/187927857/HOTPOTS-Pothole-detection-IOT-pipeline">
+      <div class="thumb"><img src="https://portfolio-navy-nu-57.vercel.app/work/hotpots.png" alt="HOTPOTS" loading="lazy"><canvas></canvas></div>
+      <div class="card-meta"><span class="cat">ux·ui · iot</span><span class="name">HOTPOTS</span><div class="sub">pothole detection pipeline</div></div>
+    </a>
+
+    <a class="card" data-cat="interior" href="https://www.behance.net/gallery/150114003/Golden-Mile-Reimagined">
+      <div class="thumb"><img src="https://portfolio-navy-nu-57.vercel.app/work/golden-mile.jpg" alt="Golden Mile Reimagined" loading="lazy"><canvas></canvas></div>
+      <div class="card-meta"><span class="cat">interior architecture</span><span class="name">Golden Mile Reimagined</span><div class="sub">a brutalist icon, re-read</div></div>
+    </a>
+
+    <a class="card" data-cat="photo" href="https://www.instagram.com/luppiesnaps/">
+      <div class="thumb"><img src="https://portfolio-navy-nu-57.vercel.app/work/uw-stiliger.jpg" alt="Underwater macro" loading="lazy"><canvas></canvas></div>
+      <div class="card-meta"><span class="cat">photo · macro</span><span class="name">Underwater Macro</span><div class="sub">stiliger sp., lembeh strait</div></div>
+    </a>
+
+    <a class="card" data-cat="ux" href="https://www.behance.net/gallery/129614555/Woof-Walks-Dog-walking-App-Concept-Design-Challenge">
+      <div class="thumb"><img src="https://portfolio-navy-nu-57.vercel.app/work/woof-walks.jpg" alt="Woof Walks" loading="lazy"><canvas></canvas></div>
+      <div class="card-meta"><span class="cat">ux·ui · concept</span><span class="name">Woof Walks</span><div class="sub">dog-walking app concept</div></div>
+    </a>
+
+    <a class="card" data-cat="graphic" href="https://www.behance.net/gallery/129301467/ParcelVy-Courier-Delivery-Service-Brand-Identity">
+      <div class="thumb"><img src="https://portfolio-navy-nu-57.vercel.app/work/parcelvy.jpg" alt="ParcelVy" loading="lazy"><canvas></canvas></div>
+      <div class="card-meta"><span class="cat">graphic · identity</span><span class="name">ParcelVy</span><div class="sub">courier brand identity</div></div>
+    </a>
+
+    <a class="card redacted" data-cat="mystery" href="mailto:ensignpotato@gmail.com?subject=Tell%20me%20about%20the%20graph%20thing">
+      <div class="thumb"><div class="redline">···&gt;··&gt;<br><span class="bar">graphgraphgraph</span><br>[ NODES &amp; EDGES ]</div></div>
+      <div class="card-meta"><span class="cat">weekdays · also 9–6</span><span class="name">A very useful graph</span><div class="sub">of what? email me →</div></div>
+    </a>
+
+    <a class="card" data-cat="graphic" href="https://www.behance.net/gallery/129285907/Just-wanted-to-say-Nothing">
+      <div class="thumb"><img src="https://portfolio-navy-nu-57.vercel.app/work/nothing.jpg" alt="Just Wanted to Say Nothing" loading="lazy"><canvas></canvas></div>
+      <div class="card-meta"><span class="cat">graphic · typography</span><span class="name">Just Wanted to Say Nothing</span><div class="sub">typography series</div></div>
+    </a>
+
+    <a class="card" data-cat="ux" href="https://www.behance.net/gallery/128941837/EDUKUEH-Tuition-HBL-App">
+      <div class="thumb"><img src="https://portfolio-navy-nu-57.vercel.app/work/edukueh.jpg" alt="EDUKUEH" loading="lazy"><canvas></canvas></div>
+      <div class="card-meta"><span class="cat">ux·ui · app</span><span class="name">EDUKUEH</span><div class="sub">tuition &amp; home-based learning</div></div>
+    </a>
+
+    <a class="card" data-cat="doodles" href="https://www.instagram.com/itslupiedoodles/">
+      <div class="thumb"><img src="https://portfolio-navy-nu-57.vercel.app/work/doodle-a.jpg" alt="Lupie Doodles" loading="lazy"><canvas></canvas></div>
+      <div class="card-meta"><span class="cat">doodles · ongoing</span><span class="name">Lupie Doodles</span><div class="sub">@itslupiedoodles</div></div>
+    </a>
+
+    <a class="card" data-cat="graphic" href="https://www.behance.net/gallery/150112707/Ramayana-Literature-Infographic">
+      <div class="thumb"><img src="https://portfolio-navy-nu-57.vercel.app/work/ramayana.jpg" alt="Ramayana infographic" loading="lazy"><canvas></canvas></div>
+      <div class="card-meta"><span class="cat">graphic · infographic</span><span class="name">Ramayana</span><div class="sub">literature, illustrated</div></div>
+    </a>
+
+    <a class="card" data-cat="ux" href="https://www.behance.net/gallery/96803045/OSMOSE-FYP-AY1920">
+      <div class="thumb"><img src="https://portfolio-navy-nu-57.vercel.app/work/osmose.jpg" alt="OSMOSE" loading="lazy"><canvas></canvas></div>
+      <div class="card-meta"><span class="cat">ux·ui · fyp</span><span class="name">OSMOSE</span><div class="sub">final-year project</div></div>
+    </a>
+
+  </div>
+</section>
+
+<section class="cta">
+  <div>
+    <h2>The professional dossier <span class="no-net">isn't on the internet.</span></h2>
+    <p class="hint">on purpose. it's better in person anyway.</p>
+  </div>
+  <a class="btn" href="mailto:ensignpotato@gmail.com?subject=Okay%2C%20I%27m%20curious">request access →</a>
+</section>
+
+<footer>
+  <span>elizabeth lee · singapore · 2026</span>
+  <span class="egg-hint">psst — try typing whoami</span>
+</footer>
+
+<div id="term" role="dialog" aria-modal="true" aria-label="terminal">
+  <div class="term-win">
+    <div class="term-bar"><span>guest@elizabeth-portfolio</span><button id="term-x" aria-label="close">✕</button></div>
+    <div class="term-body" id="term-body"></div>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+(function(){
+  var fine = window.matchMedia('(pointer:fine)').matches;
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* ---- pixel cursor ---- */
+  var cur = document.getElementById('pix-cursor');
+  if (fine){
+    document.body.classList.add('cursor-on');
+    document.addEventListener('mousemove', function(e){
+      cur.style.left = e.clientX+'px'; cur.style.top = e.clientY+'px';
+      var t = e.target;
+      if (t.closest('.card.redacted')) cur.dataset.mode='block';
+      else if (t.closest('.card') || t.closest('.specimens') || t.closest('.char-avatar')) cur.dataset.mode='mag';
+      else cur.dataset.mode='arrow';
+    });
+    document.addEventListener('mouseleave',function(){cur.style.opacity=0});
+    document.addEventListener('mouseenter',function(){cur.style.opacity=1});
+  } else { cur.style.display='none'; }
+
+  /* ---- de-rez hover: draw each image tiny, scale up ---- */
+  document.querySelectorAll('.thumb').forEach(function(th){
+    var img = th.querySelector('img'), cv = th.querySelector('canvas');
+    if (!img || !cv) return;
+    function build(){
+      try{
+        var cols = 26, rows = Math.round(cols * (img.naturalHeight/img.naturalWidth)) || 20;
+        cv.width = cols; cv.height = rows;
+        var ctx = cv.getContext('2d');
+        ctx.imageSmoothingEnabled = false;
+        ctx.drawImage(img, 0, 0, cols, rows);
+        cv.classList.add('ready');
+      }catch(e){ /* CORS-tainted or failed — skip effect gracefully */ }
+    }
+    if (img.complete && img.naturalWidth) build();
+    else { img.addEventListener('load', build); }
+    img.addEventListener('error', function(){ cv.remove(); });
+  });
+
+  /* ---- filters ---- */
+  var btns = document.querySelectorAll('.filters button');
+  btns.forEach(function(b){
+    b.addEventListener('click', function(){
+      btns.forEach(function(x){x.classList.remove('on')});
+      b.classList.add('on');
+      var f = b.dataset.f;
+      document.querySelectorAll('.card').forEach(function(c){
+        c.classList.toggle('hide', f!=='all' && c.dataset.cat!==f);
+      });
+    });
+  });
+
+  /* ---- whoami easter egg ---- */
+  var buf='', term=document.getElementById('term'), body=document.getElementById('term-body');
+  var lines = [
+    ['$ whoami','p'],
+    ['guest. obviously.',''],
+    ['$ whois elizabeth --professional','p'],
+    ['ACCESS DENIED — this information is distributed by email only.',''],
+    ['nice try, though. i respect the instinct to poke around.',''],
+    ['→ <a href="mailto:ensignpotato@gmail.com?subject=whoami">request clearance</a>','']
+  ];
+  function openTerm(){
+    term.classList.add('open'); body.innerHTML='';
+    var i=0;
+    function next(){
+      if (i>=lines.length) return;
+      var d=document.createElement('div');
+      if (lines[i][1]) d.className=lines[i][1];
+      d.innerHTML=lines[i][0]; body.appendChild(d); i++;
+      reduce ? next() : setTimeout(next, 420);
+    }
+    next();
+  }
+  document.addEventListener('keydown', function(e){
+    if (term.classList.contains('open')){ if(e.key==='Escape') term.classList.remove('open'); return; }
+    if (e.target.tagName==='INPUT'||e.target.tagName==='TEXTAREA') return;
+    if (e.key.length===1) buf=(buf+e.key.toLowerCase()).slice(-6);
+    if (buf==='whoami'){ buf=''; openTerm(); }
+  });
+  document.getElementById('term-x').addEventListener('click', function(){term.classList.remove('open')});
+  term.addEventListener('click', function(e){ if(e.target===term) term.classList.remove('open'); });
+
+  /* ---- voxel avatar (EDIT ME for likeness) ----
+     legend: k hair/ink · s skin · e eye · c coral (blush/shoes)
+             t teal shirt · g camera body · a lens · . empty      */
+  var PAL = {k:0x17150F, s:0xF0C08A, e:0x17150F, c:0xFF5A48,
+             t:0x0E6E64, g:0x3A362C, a:0xDCE84B};
+  var FACE_OPEN = 'kkssessssesskk';
+  var FACE_SHUT = 'kksssssssssskk';
+  var ROWS = [
+    '..kkkkkkkkkk..',
+    '.kkkkkkkkkkkk.',
+    '.kkkkkkkkkkkk.',
+    'kkkssssssssskk',
+    FACE_OPEN,
+    'kksssssssssskk',
+    'kkscsssssscskk',
+    '.kssssssssssk.',
+    '.k.ssssssss.k.',
+    '.ksttttttttsk.',
+    '.kstttgggttsk.',
+    '.kstttgagttsk.',
+    '..stttttttts..',
+    '..aaaaaaaaaa..',
+    '.cccccccccccc.',
+    '...ss....ss...',
+    '...cc....cc...',
+    '..ccc....ccc..'
+  ];
+  var cv3 = document.getElementById('avatar3d');
+  if (cv3 && window.THREE){
+    var COLS = ROWS[0].length, NROWS = ROWS.length;
+    var VW = 188, VH = 216;
+    var renderer = new THREE.WebGLRenderer({canvas:cv3, alpha:true, antialias:true});
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio||1, 2));
+    renderer.setSize(VW, VH);   // sets CSS size too, so DPR can't inflate the element
+    var scene = new THREE.Scene();
+    var cam = new THREE.PerspectiveCamera(28, VW/VH, .1, 200);
+    cam.position.set(0, 0, 46);
+    scene.add(new THREE.AmbientLight(0xffffff, .78));
+    var sun = new THREE.DirectionalLight(0xfff6df, .55);
+    sun.position.set(6, 9, 12); scene.add(sun);
+    var rim = new THREE.DirectionalLight(0x0E6E64, .25);
+    rim.position.set(-7, -3, -9); scene.add(rim);
+
+    var mats = {
+      hair:  new THREE.MeshLambertMaterial({color:0x17150F}),
+      skin:  new THREE.MeshLambertMaterial({color:0xF0C08A}),
+      eye:   new THREE.MeshLambertMaterial({color:0x17150F}),
+      coral: new THREE.MeshLambertMaterial({color:0xFF5A48}),
+      teal:  new THREE.MeshLambertMaterial({color:0x0E6E64}),
+      acid:  new THREE.MeshLambertMaterial({color:0xDCE84B}),
+      camb:  new THREE.MeshLambertMaterial({color:0x3A362C})
+    };
+    var group = new THREE.Group(), eyeMeshes = [];
+    function box(w,h,d,mat,x,y,z){
+      var m = new THREE.Mesh(new THREE.BoxGeometry(w,h,d), mat);
+      m.position.set(x,y,z); group.add(m); return m;
+    }
+    /* head + face */
+    box(6,6,6, mats.skin, 0,9.5,0);
+    box(6.7,1.3,6.7, mats.hair, 0,12.5,0);            // crown
+    box(6.7,7.6,1.6, mats.hair, 0,9.2,-2.8);          // back of hair
+    box(6.4,1.3,0.8, mats.hair, 0,11.9,2.9);          // fringe
+    eyeMeshes.push(box(1,1.15,0.3, mats.eye, -1.4,9.7,3.05));
+    eyeMeshes.push(box(1,1.15,0.3, mats.eye,  1.4,9.7,3.05));
+    box(0.8,0.6,0.25, mats.coral, -2.35,8.55,3.05);   // blush
+    box(0.8,0.6,0.25, mats.coral,  2.35,8.55,3.05);
+    box(1.1,0.4,0.25, mats.coral, 0,8.05,3.05);       // smile
+    /* long curly hair: side falls with stepped, wiggling curl cubes */
+    [-1,1].forEach(function(sd){
+      box(1.5,8.5,2.4, mats.hair, sd*3.55, 6.8, -0.4);
+      for (var i=0;i<4;i++){
+        box(1.45,1.25,1.9, mats.hair,
+            sd*(3.55 + (i%2 ? .5 : -.4)),
+            2.25 - i*1.15,
+            -0.4 + (i%2 ? .45 : -.35));
+      }
+    });
+    for (var j=0;j<5;j++){                            // wavy back hem
+      box(1.35,1.3,1.5, mats.hair, -2.6 + j*1.3, 5.15 + (j%2 ? .55 : 0), -2.95);
+    }
+    /* neck + colourful banded dress */
+    box(1.7,1.2,1.7, mats.skin, 0,6.1,0);
+    box(4,2.8,2.6,  mats.teal,  0,4.2,0);             // bodice
+    box(4.5,1.1,3,  mats.acid,  0,2.5,0);             // waistband
+    box(5.2,1.5,3.5, mats.coral, 0,1.2,0);            // skirt tier 1
+    box(6.1,1.5,4.1, mats.teal,  0,-0.3,0);           // skirt tier 2
+    box(7,1.4,4.7,  mats.acid,  0,-1.75,0);           // hem
+    /* arms + sleeves */
+    [-1,1].forEach(function(sd){
+      box(1.6,1.3,1.8, mats.teal, sd*2.9, 5.1, 0);
+      box(1.2,3.6,1.4, mats.skin, sd*2.9, 2.75, 0);
+    });
+    /* legs + shoes */
+    [-1,1].forEach(function(sd){
+      box(1.4,2.4,1.6, mats.skin, sd*1.15, -3.55, 0);
+      box(1.7,1,2.3,  mats.coral, sd*1.15, -5.2, 0.25);
+    });
+    /* trusty camera */
+    box(2,1.4,1, mats.camb, 0,4.15,1.85);
+    box(0.75,0.75,0.6, mats.acid, 0,4.15,2.5);
+    group.position.y = -3.7;   // center the figure in frame
+    scene.add(group);
+
+    /* drag to rotate + gentle idle spin */
+    var dragging=false, px=0, py=0, targY=0, targX=0, idle=true, idleTimer;
+    function wake(){ idle=false; clearTimeout(idleTimer);
+      idleTimer=setTimeout(function(){ idle=true; }, 2600); }
+    cv3.addEventListener('pointerdown', function(e){
+      dragging=true; px=e.clientX; py=e.clientY; wake();
+      cv3.setPointerCapture(e.pointerId);
+    });
+    cv3.addEventListener('pointermove', function(e){
+      if (!dragging) return;
+      targY += (e.clientX - px) * .012;
+      targX += (e.clientY - py) * .008;
+      targX = Math.max(-.55, Math.min(.55, targX));
+      px = e.clientX; py = e.clientY; wake();
+    });
+    ['pointerup','pointercancel','pointerleave'].forEach(function(ev){
+      cv3.addEventListener(ev, function(){ dragging=false; });
+    });
+
+    (function loop(){
+      requestAnimationFrame(loop);
+      if (idle && !reduce) targY += .006;
+      group.rotation.y += (targY - group.rotation.y) * .12;
+      group.rotation.x += (targX - group.rotation.x) * .12;
+      renderer.render(scene, cam);
+    })();
+
+    /* blink */
+    if (!reduce){
+      setInterval(function(){
+        eyeMeshes.forEach(function(m){ m.material = mats.skin; });
+        setTimeout(function(){
+          eyeMeshes.forEach(function(m){ m.material = mats.eye; });
+        }, 140);
+      }, 3400);
+    }
+  } else if (cv3){
+    /* no WebGL / three failed to load: draw flat pixels */
+    var ctx2 = cv3.getContext('2d'), P2 = 12,
+        ox = (cv3.width - ROWS[0].length*P2)/2,
+        oy = (cv3.height - ROWS.length*P2)/2;
+    ROWS.forEach(function(r,y){
+      for (var x=0;x<r.length;x++){
+        if (r[x]==='.') continue;
+        ctx2.fillStyle = '#'+PAL[r[x]].toString(16).padStart(6,'0');
+        ctx2.fillRect(ox+x*P2, oy+y*P2, P2, P2);
+      }
+    });
+  }
+
+  /* ---- stat bars fill on view ---- */
+  var statsEl = document.getElementById('stats');
+  if (statsEl){
+    function fill(){
+      statsEl.querySelectorAll('.stat').forEach(function(s,idx){
+        var i=s.querySelector('.bar i');
+        setTimeout(function(){ i.style.width=s.dataset.v+'%'; }, reduce?0:idx*90);
+      });
+    }
+    if ('IntersectionObserver' in window && !reduce){
+      new IntersectionObserver(function(en,obs){
+        if (en[0].isIntersecting){ fill(); obs.disconnect(); }
+      },{threshold:.3}).observe(statsEl);
+    } else { fill(); }
+  }
+})();
+</script>
+</body>
+</html>
