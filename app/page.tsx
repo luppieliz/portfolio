@@ -17,6 +17,7 @@ export default function Home() {
           <span className="caret"></span>
         </div>
         <nav>
+          <a href="#about">about</a>
           <a href="mailto:ensignpotato@gmail.com">email</a>
           <a href="https://sg.linkedin.com/in/lizabethlee">linkedin</a>
           <a href="https://www.behance.net/lizabethmarielee">behance</a>
@@ -35,18 +36,6 @@ export default function Home() {
               I like fast proofs-of-concept, the kind that ship in hours, not
               days. If I think something should exist, I build it. An
               interface, a website, a tool, a process.
-            </p>
-            <p>
-              The path here was one question at a time. I started in interior
-              design, learning to bring the beautiful spaces in my mind to
-              life. Then I thought: <em>why not build websites for my spaces
-              to live?</em> So I studied computer science, picking up UI·UX
-              and engineering along the way. Then:{" "}
-              <em>what if my websites get hacked?</em> So, cybersecurity it
-              is! School ended but my passion for learning and building
-              didn&rsquo;t. These days I build, test, ship and optimise
-              cybersecurity tools whilst exploring what this world has to
-              offer, underwater and on land ;)
             </p>
             <p className="locked">
               I&rsquo;m still building my story —{" "}
@@ -75,6 +64,31 @@ export default function Home() {
       <Specimens />
 
       <WorkGrid />
+
+      <section className="about" id="about">
+        <p className="eyebrow">backstory · loaded from save file</p>
+        <h2>The origin story</h2>
+        <div className="about-body">
+          <p>
+            At a young age, Elizabeth was drawn to beautiful spaces — colours
+            made her feel alive. She ventured into interior design, learning
+            to bring the spaces in her mind to life. Moving naturally from 2D
+            drawings to 3D renders, she wanted to go deeper:{" "}
+            <em>reimagining spaces before they are ever built</em>. So she
+            pivoted into computer science, picking up UI·UX and engineering
+            along the way.
+          </p>
+          <p>
+            Her curiosity about creation — and how things really work —
+            naturally gave way to a specialisation in{" "}
+            <em>AI and cybersecurity</em>. School ended, but her passion for
+            learning and building didn&rsquo;t. These days she keeps up with
+            the latest cyber, AI and design trends to build, test, ship and
+            optimise tools and processes, whilst exploring what this world has
+            to offer — underwater and on land ;)
+          </p>
+        </div>
+      </section>
 
       <section className="cta">
         <div>

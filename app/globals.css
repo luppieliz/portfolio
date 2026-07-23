@@ -573,6 +573,28 @@ h2 {
   opacity: 0.8;
 }
 
+/* ---------- about ---------- */
+.about {
+  padding: clamp(40px, 7vh, 72px) clamp(20px, 5vw, 56px);
+  border-top: 1px solid var(--hairline);
+}
+.about .eyebrow {
+  margin-bottom: 14px;
+}
+.about-body {
+  margin-top: 16px;
+  max-width: 680px;
+  display: grid;
+  gap: 16px;
+}
+.about-body p {
+  font-size: 15px;
+}
+.about-body em {
+  font-style: normal;
+  background: linear-gradient(transparent 62%, rgba(220, 232, 75, 0.9) 62%);
+}
+
 /* ---------- CTA ---------- */
 .cta {
   margin: clamp(30px, 6vh, 60px) clamp(20px, 5vw, 56px);
