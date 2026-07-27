@@ -574,11 +574,17 @@ footer .egg-hint {
 .char-head span:last-child {
   color: var(--coral);
 }
-.char-body {
-  display: grid;
-  grid-template-columns: 200px minmax(0, 1fr);
-  gap: 18px;
-  align-items: center;
+/* character creator: ◄ arrows | avatar | arrows ► */
+.char-creator {
+  display: flex;
+  align-items: stretch;
+  justify-content: center;
+  gap: 6px;
+}
+.arrow-col {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
 }
 .char-avatar {
   display: flex;
@@ -600,41 +606,23 @@ footer .egg-hint {
   letter-spacing: 0.12em;
   user-select: none;
 }
-@media (max-width: 540px) {
-  .char-body {
-    grid-template-columns: 1fr;
-  }
-}
-
-/* ---------- avatar customizer (game-creator selectors) ---------- */
-.avatar-customizer {
-  display: grid;
-  gap: 9px;
-  align-content: center;
-}
-/* stat bars now sit below the character block */
+/* stat bars sit below the character block */
 .char-card > .stats {
   margin-top: 22px;
   padding-top: 20px;
   border-top: 1px solid var(--hairline);
-}
-.cust-select {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 8px;
-  border: 1px solid var(--hairline);
-  padding: 7px 10px;
+  margin-left: auto;
+  margin-right: auto;
 }
 .cust-arrow {
   font-family: var(--mono);
-  font-size: 14px;
+  font-size: 17px;
   line-height: 1;
   background: none;
   border: none;
   color: var(--teal);
   cursor: pointer;
-  padding: 2px 6px;
+  padding: 6px 8px;
   transition: color 0.15s, transform 0.1s;
 }
 .cust-arrow:hover,
@@ -643,25 +631,6 @@ footer .egg-hint {
 }
 .cust-arrow:active {
   transform: scale(0.82);
-}
-.cust-pick {
-  flex: 1;
-  text-align: center;
-}
-.cust-pick .cat {
-  display: block;
-  font-family: var(--pix);
-  font-size: 8px;
-  letter-spacing: 0.16em;
-  color: var(--teal);
-}
-.cust-pick .val {
-  display: block;
-  font-family: var(--pix);
-  font-size: 11px;
-  letter-spacing: 0.06em;
-  color: var(--ink);
-  margin-top: 3px;
 }
 .stats {
   display: grid;
