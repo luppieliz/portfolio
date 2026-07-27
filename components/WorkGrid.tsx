@@ -34,24 +34,16 @@ export default function WorkGrid() {
       <div className="work-head">
         <h2>The visible work</h2>
         <div className="filters" role="group" aria-label="filter work">
-          {FILTERS.map((f) => {
-            const cls = [
-              f.key === "mystery" ? "mystery" : "",
-              filter === f.key ? "on" : "",
-            ]
-              .filter(Boolean)
-              .join(" ");
-            return (
-              <button
-                key={f.key}
-                className={cls || undefined}
-                aria-pressed={filter === f.key}
-                onClick={() => setFilter(f.key)}
-              >
-                {f.label}
-              </button>
-            );
-          })}
+          {FILTERS.map((f) => (
+            <button
+              key={f.key}
+              className={filter === f.key ? "on" : undefined}
+              aria-pressed={filter === f.key}
+              onClick={() => setFilter(f.key)}
+            >
+              {f.label}
+            </button>
+          ))}
         </div>
       </div>
       <p className="sr-only" role="status">
@@ -61,7 +53,6 @@ export default function WorkGrid() {
         {CARDS.map((c) => {
           const cls = [
             "card",
-            c.redacted ? "redacted" : "",
             filter !== "all" && c.cat !== filter ? "hide" : "",
           ]
             .filter(Boolean)
@@ -90,19 +81,8 @@ export default function WorkGrid() {
                   : undefined
               }
             >
-              {c.redacted ? (
-                <div className="thumb">
-                  <div className="redline">
-                    {c.redacted.glyphs}
-                    <br />
-                    <span className="bar">{c.redacted.bar}</span>
-                    <br />
-                    {c.redacted.bracket}
-                  </div>
-                </div>
-              ) : (
-                <DeRezThumb src={c.image!} alt={c.alt ?? c.name} />
-              )}
+              <DeRezThumb src={c.image} alt={c.alt ?? c.name} />
+
               <div className="card-meta">
                 <span className="cat">{c.catLabel}</span>
                 <span className="name">{c.name}</span>

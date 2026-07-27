@@ -12,7 +12,7 @@ const LINES: { text: ReactNode; cls?: string }[] = [
     text: (
       <>
         →{" "}
-        <a href="mailto:ensignpotato@gmail.com?subject=whoami">
+        <a href="mailto:lizabethmarielee@gmail.com?subject=whoami">
           request clearance
         </a>
       </>

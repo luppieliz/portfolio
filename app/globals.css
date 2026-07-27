@@ -360,39 +360,6 @@ h1 .w-build b {
   text-underline-offset: 3px;
 }
 
-/* ---------- specimen strip ---------- */
-.specimens {
-  display: flex;
-  gap: clamp(24px, 6vw, 80px);
-  flex-wrap: wrap;
-  padding: 26px clamp(20px, 5vw, 56px);
-  border-top: 1px solid var(--hairline);
-  border-bottom: 1px solid var(--hairline);
-  align-items: flex-end;
-}
-.spec {
-  display: flex;
-  align-items: flex-end;
-  gap: 14px;
-}
-.spec svg {
-  image-rendering: pixelated;
-  shape-rendering: crispEdges;
-  display: block;
-}
-.spec .tag {
-  font-family: var(--pix);
-  font-size: 10px;
-  line-height: 1.7;
-  color: var(--ink);
-  opacity: 0.75;
-}
-.spec .tag b {
-  display: block;
-  color: var(--coral);
-  font-weight: 400;
-}
-
 /* ---------- work ---------- */
 .work {
   padding: clamp(40px, 7vh, 72px) clamp(20px, 5vw, 56px);
@@ -433,10 +400,6 @@ h2 {
   background: var(--ink);
   color: var(--paper);
   border-color: var(--ink);
-}
-.filters button.mystery.on {
-  background: var(--redact);
-  color: var(--acid);
 }
 .grid {
   display: grid;
@@ -510,67 +473,6 @@ h2 {
   font-size: 12px;
   opacity: 0.7;
   margin-top: 2px;
-}
-
-/* redacted cards */
-.card.redacted {
-  background: var(--redact);
-  color: var(--paper);
-  border-color: var(--redact);
-}
-.card.redacted:hover {
-  box-shadow: 5px 5px 0 var(--coral);
-}
-.card.redacted .thumb {
-  background: var(--redact);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.redline {
-  font-family: var(--mono);
-  font-size: 13px;
-  color: var(--acid);
-  letter-spacing: 0.05em;
-  text-align: center;
-  line-height: 2;
-}
-.redline .bar {
-  display: inline-block;
-  background: var(--paper);
-  color: var(--paper);
-  padding: 0 6px;
-  user-select: none;
-}
-.card.redacted:hover .bar,
-.card.redacted:focus-visible .bar {
-  animation: glitch 0.5s steps(2) infinite;
-}
-@keyframes glitch {
-  0% {
-    transform: translate(0);
-  }
-  25% {
-    transform: translate(-2px, 1px);
-  }
-  50% {
-    transform: translate(2px, -1px);
-  }
-  75% {
-    transform: translate(-1px, -1px);
-  }
-  100% {
-    transform: translate(0);
-  }
-}
-.card.redacted .card-meta {
-  border-top-color: rgba(250, 246, 238, 0.2);
-}
-.card.redacted .cat {
-  color: var(--acid);
-}
-.card.redacted .sub {
-  opacity: 0.8;
 }
 
 /* ---------- about ---------- */

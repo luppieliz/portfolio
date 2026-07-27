@@ -3,8 +3,7 @@ export type Category =
   | "personal"
   | "photo"
   | "interior"
-  | "uxg"
-  | "mystery";
+  | "uxg";
 
 export const FILTERS: { key: Category | "all"; label: string }[] = [
   { key: "all", label: "all" },
@@ -13,7 +12,6 @@ export const FILTERS: { key: Category | "all"; label: string }[] = [
   { key: "photo", label: "photography" },
   { key: "interior", label: "interior" },
   { key: "uxg", label: "ui·ux & graphic" },
-  { key: "mystery", label: "???" },
 ];
 
 export type Detail = {
@@ -28,10 +26,9 @@ export type Card = {
   catLabel: string;
   name: string;
   sub: string;
-  href: string; // external link (behance / instagram / mailto)
-  image?: string; // thumbnail under /public
+  href: string; // external link (behance / instagram)
+  image: string; // thumbnail under /public
   alt?: string;
-  redacted?: { glyphs: string; bar: string; bracket: string };
   detail?: Detail; // clicking the card opens this overlay
 };
 
@@ -201,16 +198,87 @@ export const CARDS: Card[] = [
     },
   },
   {
-    id: "classified",
-    cat: "mystery",
-    catLabel: "weekdays · 9–6",
-    name: "Classified-ish",
-    sub: "ask me →",
-    href: "mailto:ensignpotato@gmail.com?subject=So%20what%20do%20you%20actually%20do%3F",
-    redacted: {
-      glyphs: ">>·>·>·",
-      bar: "redactedredacted",
-      bracket: "[ REDACTED ]",
+    id: "odaya",
+    cat: "interior",
+    catLabel: "interior · concept",
+    name: "ODAYA",
+    sub: "co-working & relaxation",
+    href: "https://www.behance.net/gallery/96803627/ODAYA-AY1819",
+    image: "/work/gallery/odaya-1.jpg",
+    alt: "ODAYA co-working concept",
+    detail: {
+      summary:
+        "A co-working and relaxation concept developed with Space Matrix — softening the line between focus and rest.",
+      gallery: [
+        { src: "/work/gallery/odaya-1.jpg", alt: "ODAYA render" },
+        { src: "/work/gallery/odaya-2.jpg", alt: "ODAYA render" },
+        { src: "/work/gallery/odaya-3.jpg", alt: "ODAYA render" },
+        { src: "/work/gallery/odaya-4.jpg", alt: "ODAYA board" },
+      ],
+      linkLabel: "view on behance →",
+    },
+  },
+  {
+    id: "aotam",
+    cat: "interior",
+    catLabel: "interior · residential",
+    name: "AOTAM",
+    sub: "residential master suite",
+    href: "https://www.behance.net/gallery/96804357/AOTAM-AY17",
+    image: "/work/gallery/aotam-1.jpg",
+    alt: "AOTAM residential suite",
+    detail: {
+      summary:
+        "A warm residential master-suite — layered timber, soft gold textiles, and a spa-like ensuite framed by a wall of glass.",
+      gallery: [
+        { src: "/work/gallery/aotam-1.jpg", alt: "AOTAM bedroom render" },
+        { src: "/work/gallery/aotam-2.jpg", alt: "AOTAM render" },
+        { src: "/work/gallery/aotam-3.jpg", alt: "AOTAM render" },
+        { src: "/work/gallery/aotam-4.jpg", alt: "AOTAM render" },
+      ],
+      linkLabel: "view on behance →",
+    },
+  },
+  {
+    id: "hirise",
+    cat: "interior",
+    catLabel: "interior · residential",
+    name: "HIRISE",
+    sub: "high-rise bedroom",
+    href: "https://www.behance.net/gallery/96804099/HIRISE-AY17",
+    image: "/work/gallery/hirise-1.jpg",
+    alt: "HIRISE high-rise bedroom",
+    detail: {
+      summary:
+        "A high-rise bedroom concept that frames the city skyline at night — moody timber, exposed brick, and a jolt of red.",
+      gallery: [
+        { src: "/work/gallery/hirise-1.jpg", alt: "HIRISE bedroom render" },
+        { src: "/work/gallery/hirise-2.jpg", alt: "HIRISE render" },
+        { src: "/work/gallery/hirise-3.jpg", alt: "HIRISE render" },
+        { src: "/work/gallery/hirise-4.jpg", alt: "HIRISE render" },
+      ],
+      linkLabel: "view on behance →",
+    },
+  },
+  {
+    id: "lodge",
+    cat: "interior",
+    catLabel: "interior · hospitality",
+    name: "LODGE",
+    sub: "urban lodge & lounge",
+    href: "https://www.behance.net/gallery/96803771/LODGE-AY18",
+    image: "/work/gallery/lodge-1.jpg",
+    alt: "LODGE urban lounge",
+    detail: {
+      summary:
+        "A youthful urban lodge and social lounge — exposed brick, street art, and glass-walled spaces that invite people to linger.",
+      gallery: [
+        { src: "/work/gallery/lodge-1.jpg", alt: "LODGE lounge render" },
+        { src: "/work/gallery/lodge-2.jpg", alt: "LODGE render" },
+        { src: "/work/gallery/lodge-3.jpg", alt: "LODGE render" },
+        { src: "/work/gallery/lodge-4.jpg", alt: "LODGE render" },
+      ],
+      linkLabel: "view on behance →",
     },
   },
   {
@@ -250,27 +318,6 @@ export const CARDS: Card[] = [
     },
   },
   {
-    id: "odaya",
-    cat: "interior",
-    catLabel: "interior · concept",
-    name: "ODAYA",
-    sub: "co-working & relaxation",
-    href: "https://www.behance.net/gallery/96803627/ODAYA-AY1819",
-    image: "/work/gallery/odaya-1.jpg",
-    alt: "ODAYA co-working concept",
-    detail: {
-      summary:
-        "A co-working and relaxation concept developed with Space Matrix — softening the line between focus and rest.",
-      gallery: [
-        { src: "/work/gallery/odaya-1.jpg", alt: "ODAYA render" },
-        { src: "/work/gallery/odaya-2.jpg", alt: "ODAYA render" },
-        { src: "/work/gallery/odaya-3.jpg", alt: "ODAYA render" },
-        { src: "/work/gallery/odaya-4.jpg", alt: "ODAYA board" },
-      ],
-      linkLabel: "view on behance →",
-    },
-  },
-  {
     id: "osmose",
     cat: "uxg",
     catLabel: "ux·ui · fyp",
@@ -289,19 +336,6 @@ export const CARDS: Card[] = [
         { src: "/work/gallery/osmose-4.jpg", alt: "OSMOSE board" },
       ],
       linkLabel: "view on behance →",
-    },
-  },
-  {
-    id: "graph",
-    cat: "mystery",
-    catLabel: "weekdays · also 9–6",
-    name: "A very useful graph",
-    sub: "of what? email me →",
-    href: "mailto:ensignpotato@gmail.com?subject=Tell%20me%20about%20the%20graph%20thing",
-    redacted: {
-      glyphs: "···>··>",
-      bar: "graphgraphgraph",
-      bracket: "[ NODES & EDGES ]",
     },
   },
   {

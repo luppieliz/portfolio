@@ -4,7 +4,7 @@ import { useEffect, useRef } from "react";
 
 // Custom pixel cursor — fine-pointer devices only, disabled under
 // prefers-reduced-motion. Modes: arrow (default), mag (work cards /
-// specimens / avatar), block (redacted cards).
+// work card / avatar), block (redacted cards).
 export default function PixelCursor() {
   const ref = useRef<HTMLDivElement>(null);
 
@@ -22,13 +22,7 @@ export default function PixelCursor() {
       cur.style.left = e.clientX + "px";
       cur.style.top = e.clientY + "px";
       const t = e.target as Element | null;
-      if (t && t.closest && t.closest(".card.redacted"))
-        cur.dataset.mode = "block";
-      else if (
-        t &&
-        t.closest &&
-        (t.closest(".card") || t.closest(".specimens") || t.closest(".char-avatar"))
-      )
+      if (t && t.closest && (t.closest(".card") || t.closest(".char-avatar")))
         cur.dataset.mode = "mag";
       else cur.dataset.mode = "arrow";
     };

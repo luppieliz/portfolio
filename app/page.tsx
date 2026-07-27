@@ -2,7 +2,6 @@ import PixelCursor from "@/components/PixelCursor";
 import Headline from "@/components/Headline";
 import VoxelAvatar from "@/components/VoxelAvatar";
 import StatBars from "@/components/StatBars";
-import Specimens from "@/components/Specimens";
 import WorkGrid from "@/components/WorkGrid";
 import TerminalEasterEgg from "@/components/TerminalEasterEgg";
 
@@ -18,7 +17,7 @@ export default function Home() {
         </div>
         <nav>
           <a href="#about">about</a>
-          <a href="mailto:ensignpotato@gmail.com">email</a>
+          <a href="mailto:lizabethmarielee@gmail.com">email</a>
           <a href="https://sg.linkedin.com/in/lizabethlee">linkedin</a>
           <a href="https://www.behance.net/lizabethmarielee">behance</a>
           <a href="https://www.instagram.com/luppiesnaps/">photos</a>
@@ -61,8 +60,6 @@ export default function Home() {
         </aside>
       </section>
 
-      <Specimens />
-
       <WorkGrid />
 
       <section className="about" id="about">
@@ -100,7 +97,7 @@ export default function Home() {
         </div>
         <a
           className="btn"
-          href="mailto:ensignpotato@gmail.com?subject=Okay%2C%20I%27m%20curious"
+          href="mailto:lizabethmarielee@gmail.com?subject=Okay%2C%20I%27m%20curious"
         >
           request access →
         </a>
