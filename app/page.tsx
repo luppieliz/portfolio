@@ -54,22 +54,22 @@ export default function Home() {
         <h2>The origin story</h2>
         <div className="about-body">
           <p>
-            At a young age, Elizabeth was drawn to beautiful spaces — colours
-            made her feel alive. She ventured into interior design, learning
-            to bring the spaces in her mind to life. Moving naturally from 2D
-            drawings to 3D renders, she wanted to go deeper:{" "}
+            At a young age, Elizabeth was drawn to beautiful spaces, and
+            colours made her feel alive. She ventured into interior design,
+            learning to bring the spaces in her mind to life. Moving naturally
+            from 2D drawings to 3D renders, she wanted to go deeper:{" "}
             <em>reimagining spaces before they are ever built</em>. So she
             pivoted into computer science, picking up UI·UX and engineering
             along the way.
           </p>
           <p>
-            Her curiosity about creation — and how things really work —
+            Her curiosity about creation, and how things really work,
             naturally gave way to a specialisation in{" "}
             <em>AI and cybersecurity</em>. School ended, but her passion for
             learning and building didn&rsquo;t. These days she keeps up with
             the latest cyber, AI and design trends to build, test, ship and
             optimise tools and processes, whilst exploring what this world has
-            to offer — underwater and on land ;)
+            to offer, underwater and on land ;)
           </p>
         </div>
       </section>
