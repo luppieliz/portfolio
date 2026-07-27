@@ -33,7 +33,8 @@ const HAIRS: { k: Hair; l: string }[] = [
   { k: "purple", l: "purple" },
 ];
 
-function Row<T extends string>({
+// game-creator style: ◄ part ► flicks through the options
+function Selector<T extends string>({
   label,
   options,
   value,
@@ -44,19 +45,34 @@ function Row<T extends string>({
   value: T;
   onChange: (v: T) => void;
 }) {
+  const idx = Math.max(
+    0,
+    options.findIndex((o) => o.k === value)
+  );
+  const go = (dir: number) =>
+    onChange(options[(idx + dir + options.length) % options.length].k);
   return (
-    <div className="cust-row" role="group" aria-label={label}>
-      <span className="cust-label">{label}</span>
-      {options.map((o) => (
-        <button
-          key={o.k}
-          className={value === o.k ? "on" : undefined}
-          aria-pressed={value === o.k}
-          onClick={() => onChange(o.k)}
-        >
-          {o.l}
-        </button>
-      ))}
+    <div className="cust-select" role="group" aria-label={label}>
+      <button
+        className="cust-arrow"
+        aria-label={`previous ${label}`}
+        onClick={() => go(-1)}
+      >
+        ◄
+      </button>
+      <span className="cust-pick">
+        <span className="cat">{label}</span>
+        <span className="val" aria-live="polite">
+          {options[idx].l}
+        </span>
+      </span>
+      <button
+        className="cust-arrow"
+        aria-label={`next ${label}`}
+        onClick={() => go(1)}
+      >
+        ►
+      </button>
     </div>
   );
 }
@@ -80,14 +96,19 @@ export default function CharacterSheet() {
             ◄ drag to rotate ►
           </span>
         </div>
-        <StatBars />
+        <div className="avatar-customizer">
+          <Selector label="hair" options={HAIRS} value={hair} onChange={setHair} />
+          <Selector label="face" options={HEADS} value={head} onChange={setHead} />
+          <Selector label="top" options={TOPS} value={top} onChange={setTop} />
+          <Selector
+            label="bottom"
+            options={BOTTOMS}
+            value={bottom}
+            onChange={setBottom}
+          />
+        </div>
       </div>
-      <div className="avatar-customizer">
-        <Row label="top" options={TOPS} value={top} onChange={setTop} />
-        <Row label="bottom" options={BOTTOMS} value={bottom} onChange={setBottom} />
-        <Row label="head" options={HEADS} value={head} onChange={setHead} />
-        <Row label="hair" options={HAIRS} value={hair} onChange={setHair} />
-      </div>
+      <StatBars />
     </>
   );
 }

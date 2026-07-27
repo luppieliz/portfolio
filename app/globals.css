@@ -606,44 +606,62 @@ footer .egg-hint {
   }
 }
 
-/* ---------- avatar customizer ---------- */
+/* ---------- avatar customizer (game-creator selectors) ---------- */
 .avatar-customizer {
-  margin-top: 20px;
   display: grid;
   gap: 9px;
+  align-content: center;
 }
-.cust-row {
+/* stat bars now sit below the character block */
+.char-card > .stats {
+  margin-top: 22px;
+  padding-top: 20px;
+  border-top: 1px solid var(--hairline);
+}
+.cust-select {
   display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
   align-items: center;
-}
-.cust-row .cust-label {
-  font-family: var(--pix);
-  font-size: 9px;
-  letter-spacing: 0.1em;
-  color: var(--teal);
-  width: 52px;
-  flex: none;
-}
-.cust-row button {
-  font-family: var(--pix);
-  font-size: 9px;
-  letter-spacing: 0.05em;
-  padding: 6px 9px 4px;
+  justify-content: space-between;
+  gap: 8px;
   border: 1px solid var(--hairline);
+  padding: 7px 10px;
+}
+.cust-arrow {
+  font-family: var(--mono);
+  font-size: 14px;
+  line-height: 1;
   background: none;
-  color: var(--ink);
+  border: none;
+  color: var(--teal);
   cursor: pointer;
-  transition: all 0.15s;
+  padding: 2px 6px;
+  transition: color 0.15s, transform 0.1s;
 }
-.cust-row button:hover {
-  border-color: var(--ink);
+.cust-arrow:hover,
+.cust-arrow:focus-visible {
+  color: var(--coral);
 }
-.cust-row button.on {
-  background: var(--ink);
-  color: var(--paper);
-  border-color: var(--ink);
+.cust-arrow:active {
+  transform: scale(0.82);
+}
+.cust-pick {
+  flex: 1;
+  text-align: center;
+}
+.cust-pick .cat {
+  display: block;
+  font-family: var(--pix);
+  font-size: 8px;
+  letter-spacing: 0.16em;
+  color: var(--teal);
+}
+.cust-pick .val {
+  display: block;
+  font-family: var(--pix);
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  color: var(--ink);
+  margin-top: 3px;
 }
 .stats {
   display: grid;
