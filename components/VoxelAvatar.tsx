@@ -6,9 +6,14 @@ import * as THREE from "three";
 const VW = 188;
 const VH = 216;
 
-/* flat-pixel fallback sprite — explorer look. legend: k hair · s skin ·
-   e eye · c coral tee · o orange shorts · a yellow socks · w white shoes ·
-   p purple backpack strap · . empty */
+export type Top = "dora" | "scuba" | "sport" | "techy";
+export type Bottom = "skirt" | "shorts" | "pants" | "fins";
+export type Head = "smiley" | "glasses" | "mask";
+export type Hair = "brown" | "red" | "blond" | "purple";
+
+export type Outfit = { top: Top; bottom: Bottom; head: Head; hair: Hair };
+
+/* flat-pixel fallback sprite (no-WebGL only) — a neutral explorer. */
 const PAL: Record<string, number> = {
   k: 0x3a2416,
   s: 0xf0c08a,
@@ -41,11 +46,21 @@ const ROWS = [
   "..www....www..",
 ];
 
-export default function VoxelAvatar() {
+export default function VoxelAvatar({
+  top = "dora",
+  bottom = "shorts",
+  head = "smiley",
+  hair = "brown",
+}: Partial<Outfit>) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [mode, setMode] = useState<"3d" | "2d">("3d");
 
-  /* three.js voxel figure — geometry copied from the prototype */
+  // latest outfit for the builder to read
+  const outfitRef = useRef<Outfit>({ top, bottom, head, hair });
+  outfitRef.current = { top, bottom, head, hair };
+  const rebuildRef = useRef<null | (() => void)>(null);
+
+  /* three.js voxel figure, assembled from swappable parts */
   useEffect(() => {
     if (mode !== "3d") return;
     const cv3 = canvasRef.current;
@@ -65,13 +80,12 @@ export default function VoxelAvatar() {
 
     const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-    // reproduce the prototype's r128 colour/lighting pipeline
     THREE.ColorManagement.enabled = false;
     renderer.outputColorSpace = THREE.LinearSRGBColorSpace;
-    const LEGACY = Math.PI; // r155+ light-intensity migration factor
+    const LEGACY = Math.PI;
 
     renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
-    renderer.setSize(VW, VH); // sets CSS size too, so DPR can't inflate the element
+    renderer.setSize(VW, VH);
 
     const scene = new THREE.Scene();
     const cam = new THREE.PerspectiveCamera(28, VW / VH, 0.1, 200);
@@ -84,19 +98,31 @@ export default function VoxelAvatar() {
     rim.position.set(-7, -3, -9);
     scene.add(rim);
 
+    const lam = (color: number, opts?: THREE.MeshLambertMaterialParameters) =>
+      new THREE.MeshLambertMaterial({ color, ...opts });
     const mats = {
-      hair: new THREE.MeshLambertMaterial({ color: 0x3a2416 }),
-      skin: new THREE.MeshLambertMaterial({ color: 0xf0c08a }),
-      eye: new THREE.MeshLambertMaterial({ color: 0x17150f }),
-      coral: new THREE.MeshLambertMaterial({ color: 0xff5a48 }), // tee
-      orange: new THREE.MeshLambertMaterial({ color: 0xf0862c }), // shorts
-      acid: new THREE.MeshLambertMaterial({ color: 0xdce84b }), // socks
-      white: new THREE.MeshLambertMaterial({ color: 0xfaf6ee }), // shoes
-      pack: new THREE.MeshLambertMaterial({ color: 0x8b6fb0 }), // backpack
-      packDark: new THREE.MeshLambertMaterial({ color: 0x6f57a0 }),
+      skin: lam(0xf0c08a),
+      eye: lam(0x17150f),
+      brown: lam(0x3a2416),
+      red: lam(0xa83a2f),
+      blond: lam(0xe6c46a),
+      purple: lam(0x9a5cc6),
+      coral: lam(0xff5a48),
+      orange: lam(0xf0862c),
+      acid: lam(0xdce84b),
+      teal: lam(0x0e6e64),
+      white: lam(0xfaf6ee),
+      black: lam(0x26262c),
+      denim: lam(0x3b5c86),
+      pack: lam(0x8b6fb0),
+      packDark: lam(0x6f57a0),
+      lens: lam(0xbfe6e0, { transparent: true, opacity: 0.55 }),
     };
+
     const group = new THREE.Group();
     const eyeMeshes: THREE.Mesh[] = [];
+    scene.add(group);
+
     function box(
       w: number,
       h: number,
@@ -111,43 +137,142 @@ export default function VoxelAvatar() {
       group.add(m);
       return m;
     }
-    /* head + face */
-    box(6, 6, 6, mats.skin, 0, 9.5, 0);
-    /* short explorer bob with straight bangs */
-    box(6.7, 1.3, 6.7, mats.hair, 0, 12.5, 0); // crown
-    box(6.7, 5.6, 1.7, mats.hair, 0, 9.2, -2.75); // back of bob (chin length)
-    box(6.3, 1.7, 1.0, mats.hair, 0, 11.7, 2.85); // full straight bangs
-    [-1, 1].forEach((sd) => {
-      box(1.3, 5.6, 4.4, mats.hair, sd * 3.35, 8.9, -0.2); // side hair to jaw
-    });
-    eyeMeshes.push(box(1, 1.15, 0.3, mats.eye, -1.4, 9.7, 3.05));
-    eyeMeshes.push(box(1, 1.15, 0.3, mats.eye, 1.4, 9.7, 3.05));
-    box(0.8, 0.6, 0.25, mats.coral, -2.35, 8.55, 3.05); // blush
-    box(0.8, 0.6, 0.25, mats.coral, 2.35, 8.55, 3.05);
-    box(1.1, 0.4, 0.25, mats.coral, 0, 8.05, 3.05); // smile
-    /* neck + explorer outfit: pink tee, orange shorts */
-    box(1.7, 1.2, 1.7, mats.skin, 0, 6.1, 0);
-    box(4.2, 3.2, 2.7, mats.coral, 0, 4.3, 0); // t-shirt
-    box(4.4, 1.9, 2.9, mats.orange, 0, 2.15, 0); // shorts
-    /* short sleeves + bare arms */
-    [-1, 1].forEach((sd) => {
-      box(1.7, 1.3, 1.9, mats.coral, sd * 2.95, 5.2, 0); // sleeve
-      box(1.2, 3.8, 1.4, mats.skin, sd * 2.95, 2.9, 0); // arm
-    });
-    /* bare legs (tuck under shorts) + yellow socks + white shoes */
-    [-1, 1].forEach((sd) => {
-      box(1.5, 5.0, 1.6, mats.skin, sd * 1.15, -1.75, 0);
-      box(1.6, 0.9, 1.7, mats.acid, sd * 1.15, -4.55, 0.05); // sock
-      box(1.75, 1, 2.3, mats.white, sd * 1.15, -5.35, 0.3); // shoe
-    });
-    /* purple backpack on her back + shoulder straps */
-    box(4.4, 3.4, 1.5, mats.pack, 0, 3.8, -2.0); // pack body
-    box(2.6, 1.9, 0.4, mats.packDark, 0, 3.4, -2.85); // front pocket
-    [-1, 1].forEach((sd) => {
-      box(0.6, 3.4, 0.5, mats.pack, sd * 1.5, 4.4, 1.45); // strap over chest
-    });
-    group.position.y = -3.7; // center the figure in frame
-    scene.add(group);
+    const pair = (
+      fn: (sd: number) => void
+    ) => [-1, 1].forEach((sd) => fn(sd));
+
+    /* ---- hair ---- */
+    function hairBase(
+      mat: THREE.Material,
+      opts: { long: boolean; bangs: boolean }
+    ) {
+      box(6.7, 1.3, 6.7, mat, 0, 12.5, 0); // crown
+      if (opts.long) box(6.7, 7.6, 1.6, mat, 0, 9.2, -2.8);
+      else box(6.7, 5.6, 1.7, mat, 0, 9.2, -2.75);
+      if (opts.bangs) box(6.3, 1.7, 1.0, mat, 0, 11.7, 2.85);
+      else box(6.4, 1.0, 0.8, mat, 0, 12.05, 2.9);
+      pair((sd) => {
+        if (opts.long) box(1.4, 7.6, 2.6, mat, sd * 3.5, 6.4, -0.3);
+        else box(1.3, 5.6, 4.4, mat, sd * 3.35, 8.9, -0.2);
+      });
+    }
+    function buildHair(h: Hair) {
+      if (h === "red") hairBase(mats.red, { long: true, bangs: false });
+      else if (h === "blond") hairBase(mats.blond, { long: true, bangs: true });
+      else if (h === "purple") hairBase(mats.purple, { long: false, bangs: false });
+      else hairBase(mats.brown, { long: false, bangs: true });
+    }
+
+    /* ---- head / face ---- */
+    function eyes() {
+      eyeMeshes.push(box(1, 1.15, 0.3, mats.eye, -1.4, 9.7, 3.05));
+      eyeMeshes.push(box(1, 1.15, 0.3, mats.eye, 1.4, 9.7, 3.05));
+    }
+    function blush() {
+      box(0.8, 0.6, 0.25, mats.coral, -2.35, 8.55, 3.05);
+      box(0.8, 0.6, 0.25, mats.coral, 2.35, 8.55, 3.05);
+    }
+    function buildHead(hd: Head) {
+      if (hd === "mask") {
+        blush();
+        box(5.0, 2.6, 0.5, mats.black, 0, 9.6, 3.0); // mask skirt
+        box(4.2, 1.9, 0.3, mats.lens, 0, 9.6, 3.32); // lens
+        box(6.4, 0.8, 0.4, mats.black, 0, 9.9, -0.2); // strap
+        box(0.55, 3.6, 0.55, mats.acid, 2.7, 10.6, 1.4); // snorkel
+        box(0.75, 0.5, 0.95, mats.acid, 2.7, 12.4, 1.4); // snorkel top
+        box(1.5, 0.5, 0.25, mats.black, 0, 7.9, 3.05); // mouthpiece
+        return;
+      }
+      eyes();
+      blush();
+      if (hd === "glasses") {
+        box(1.1, 0.45, 0.25, mats.coral, 0, 8.05, 3.05); // smile
+        pair((sd) => box(1.8, 1.5, 0.14, mats.lens, sd * 1.45, 9.65, 3.16));
+        box(0.9, 0.22, 0.2, mats.eye, 0, 9.7, 3.2); // bridge
+        pair((sd) => box(0.25, 0.22, 2.6, mats.eye, sd * 2.55, 9.8, 1.9)); // temples
+      } else {
+        box(1.7, 0.5, 0.25, mats.coral, 0, 7.95, 3.05); // big smile
+      }
+    }
+
+    /* ---- tops ---- */
+    function bareArms() {
+      pair((sd) => box(1.2, 3.8, 1.4, mats.skin, sd * 2.95, 2.9, 0));
+    }
+    function buildTop(t: Top) {
+      if (t === "scuba") {
+        box(4.3, 3.5, 2.8, mats.black, 0, 4.2, 0);
+        box(4.4, 0.6, 2.9, mats.teal, 0, 5.0, 0); // chest stripe
+        pair((sd) => box(1.5, 4.4, 1.6, mats.black, sd * 2.95, 3.0, 0)); // long sleeves
+        box(1.4, 1.4, 0.8, mats.acid, 0, 4.6, 1.5); // gauge
+      } else if (t === "sport") {
+        box(4.0, 3.1, 2.6, mats.acid, 0, 4.3, 0); // tank
+        box(4.1, 0.6, 2.7, mats.coral, 0, 3.5, 0); // waist stripe
+        pair((sd) => box(0.7, 1.5, 2.2, mats.acid, sd * 1.4, 5.5, 0)); // straps
+      } else if (t === "techy") {
+        box(4.2, 3.3, 2.7, mats.teal, 0, 4.25, 0);
+        box(2.2, 0.6, 0.5, mats.white, 0, 5.75, 1.35); // collar
+        box(0.7, 2.4, 0.3, mats.coral, 0, 4.5, 1.5); // tie
+        pair((sd) => box(1.7, 1.3, 1.9, mats.teal, sd * 2.95, 5.2, 0)); // sleeves
+        box(1.2, 0.9, 0.3, mats.white, 1.1, 3.5, 1.5); // pocket
+      } else {
+        // dora adventurer
+        box(4.2, 3.2, 2.7, mats.coral, 0, 4.3, 0); // tee
+        pair((sd) => box(1.7, 1.3, 1.9, mats.coral, sd * 2.95, 5.2, 0)); // sleeves
+        box(4.4, 3.4, 1.5, mats.pack, 0, 3.8, -2.0); // backpack
+        box(2.6, 1.9, 0.4, mats.packDark, 0, 3.4, -2.85); // pocket
+        pair((sd) => box(0.6, 3.4, 0.5, mats.pack, sd * 1.5, 4.4, 1.45)); // straps
+      }
+    }
+
+    /* ---- bottoms ---- */
+    const shoes = (mat: THREE.Material) =>
+      pair((sd) => box(1.75, 1, 2.3, mat, sd * 1.15, -5.35, 0.3));
+    const socks = () =>
+      pair((sd) => box(1.6, 0.9, 1.7, mats.acid, sd * 1.15, -4.55, 0.05));
+    function buildBottom(b: Bottom) {
+      if (b === "skirt") {
+        box(5.4, 1.6, 3.4, mats.coral, 0, 1.4, 0);
+        box(6.2, 1.2, 3.9, mats.teal, 0, 0.3, 0); // hem
+        pair((sd) => box(1.4, 3.4, 1.6, mats.skin, sd * 1.15, -2.5, 0)); // legs
+        socks();
+        shoes(mats.white);
+      } else if (b === "pants") {
+        box(4.4, 1.7, 2.9, mats.denim, 0, 2.3, 0); // waist
+        pair((sd) => box(1.7, 5.8, 1.7, mats.denim, sd * 1.15, -1.9, 0)); // legs
+        shoes(mats.white);
+      } else if (b === "fins") {
+        pair((sd) => box(1.5, 5.0, 1.6, mats.skin, sd * 1.15, -1.75, 0)); // legs
+        pair((sd) => box(1.6, 0.7, 1.6, mats.black, sd * 1.15, -4.6, 0.05)); // straps
+        pair((sd) => box(1.9, 0.8, 4.8, mats.black, sd * 1.15, -5.15, 1.7)); // fins
+      } else {
+        // shorts
+        box(4.4, 1.9, 2.9, mats.orange, 0, 2.15, 0);
+        pair((sd) => box(1.5, 5.0, 1.6, mats.skin, sd * 1.15, -1.75, 0)); // legs
+        socks();
+        shoes(mats.white);
+      }
+    }
+
+    function buildFigure() {
+      for (let i = group.children.length - 1; i >= 0; i--) {
+        const c = group.children[i] as THREE.Mesh;
+        group.remove(c);
+        c.geometry.dispose();
+      }
+      eyeMeshes.length = 0;
+      const sel = outfitRef.current;
+      box(6, 6, 6, mats.skin, 0, 9.5, 0); // head
+      box(1.7, 1.2, 1.7, mats.skin, 0, 6.1, 0); // neck
+      bareArms();
+      buildHair(sel.hair);
+      buildHead(sel.head);
+      buildTop(sel.top);
+      buildBottom(sel.bottom);
+      group.position.y = -3.7;
+    }
+    rebuildRef.current = buildFigure;
+    buildFigure();
 
     /* drag to rotate + gentle idle spin */
     let dragging = false;
@@ -216,6 +341,7 @@ export default function VoxelAvatar() {
     }
 
     return () => {
+      rebuildRef.current = null;
       cancelAnimationFrame(raf);
       window.clearTimeout(idleTimer);
       window.clearInterval(blinkInterval);
@@ -232,6 +358,11 @@ export default function VoxelAvatar() {
       renderer.dispose();
     };
   }, [mode]);
+
+  /* rebuild the figure when the outfit changes (no context teardown) */
+  useEffect(() => {
+    rebuildRef.current?.();
+  }, [top, bottom, head, hair]);
 
   /* no WebGL: draw flat pixels */
   useEffect(() => {
@@ -258,7 +389,7 @@ export default function VoxelAvatar() {
       id="avatar3d"
       width={VW}
       height={VH}
-      aria-label="rotatable pixel avatar of Elizabeth"
+      aria-label="rotatable customisable pixel avatar of Elizabeth"
     />
   );
 }

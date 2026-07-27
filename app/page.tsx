@@ -1,7 +1,6 @@
 import PixelCursor from "@/components/PixelCursor";
 import Headline from "@/components/Headline";
-import VoxelAvatar from "@/components/VoxelAvatar";
-import StatBars from "@/components/StatBars";
+import CharacterSheet from "@/components/CharacterSheet";
 import WorkGrid from "@/components/WorkGrid";
 import TerminalEasterEgg from "@/components/TerminalEasterEgg";
 
@@ -44,19 +43,7 @@ export default function Home() {
         </div>
 
         <aside className="char-card" aria-label="character sheet">
-          <div className="char-head">
-            <span>character select</span>
-            <span>npc: false</span>
-          </div>
-          <div className="char-body">
-            <div className="char-avatar">
-              <VoxelAvatar />
-              <span className="drag-hint" aria-hidden="true">
-                ◄ drag to rotate ►
-              </span>
-            </div>
-            <StatBars />
-          </div>
+          <CharacterSheet />
         </aside>
       </section>
 

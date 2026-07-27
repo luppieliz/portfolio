@@ -7,7 +7,7 @@ export type Category =
 
 export const FILTERS: { key: Category | "all"; label: string }[] = [
   { key: "all", label: "all" },
-  { key: "pro", label: "professional" },
+  { key: "pro", label: "techy solutions" },
   { key: "personal", label: "personal" },
   { key: "photo", label: "photography" },
   { key: "interior", label: "interior" },
@@ -39,7 +39,7 @@ export const CARDS: Card[] = [
   {
     id: "grab-waftech",
     cat: "pro",
-    catLabel: "professional · pipeline",
+    catLabel: "techy · pipeline",
     name: "Grab HR OCR",
     sub: "document pipeline with Waftech",
     href: "https://www.behance.net/gallery/187927563/Grab-X-Waftech-Pipeline",
@@ -77,7 +77,7 @@ export const CARDS: Card[] = [
   {
     id: "hotpots",
     cat: "pro",
-    catLabel: "professional · iot",
+    catLabel: "techy · iot",
     name: "HOTPOTS",
     sub: "pothole detection pipeline",
     href: "https://www.behance.net/gallery/187927857/HOTPOTS-Pothole-detection-IOT-pipeline",
@@ -114,20 +114,35 @@ export const CARDS: Card[] = [
     },
   },
   {
-    id: "lupiedoodles",
+    id: "team-horus",
     cat: "personal",
-    catLabel: "personal · illustration",
-    name: "Lupie Doodles",
-    sub: "@itslupiedoodles",
+    catLabel: "personal · team logo",
+    name: "Team Horus",
+    sub: "SMU Metamorphosis team logo",
     href: IG_DOODLES,
     image: "/work/doodle-h.jpg",
-    alt: "Lupie Doodles illustration",
+    alt: "Team Horus falcon logo",
     detail: {
       summary:
-        "The doodle account. Characters, creatures, and whatever else wants to exist that week.",
+        "The team logo for Horus, an SMU Metamorphosis team — the Egyptian falcon reimagined as a geometric, Art Deco emblem.",
+      gallery: [{ src: "/work/doodle-h.jpg", alt: "Team Horus falcon logo" }],
+      linkLabel: "view on instagram →",
+    },
+  },
+  {
+    id: "sketches",
+    cat: "personal",
+    catLabel: "personal · sketches",
+    name: "Sketches",
+    sub: "@itslupiedoodles",
+    href: IG_DOODLES,
+    image: "/work/doodle-j.jpg",
+    alt: "Character sketch",
+    detail: {
+      summary:
+        "Loose character sketches and illustrations, drawn for fun between projects.",
       gallery: [
-        { src: "/work/doodle-h.jpg", alt: "Hawk illustration" },
-        { src: "/work/doodle-j.jpg", alt: "Goat-girl character" },
+        { src: "/work/doodle-j.jpg", alt: "Goat-girl character sketch" },
         { src: "/work/doodle-g.jpg", alt: "EDUKUEH kueh characters" },
       ],
       linkLabel: "view on instagram →",
@@ -319,8 +334,8 @@ export const CARDS: Card[] = [
   },
   {
     id: "osmose",
-    cat: "uxg",
-    catLabel: "ux·ui · fyp",
+    cat: "interior",
+    catLabel: "interior · fyp",
     name: "OSMOSE",
     sub: "final-year project",
     href: "https://www.behance.net/gallery/96803045/OSMOSE-FYP-AY1920",
@@ -356,24 +371,6 @@ export const CARDS: Card[] = [
         { src: "/work/gallery/parcelvy-3.jpg", alt: "ParcelVy collateral" },
       ],
       linkLabel: "view on behance →",
-    },
-  },
-  {
-    id: "design-challenge",
-    cat: "personal",
-    catLabel: "personal · challenge",
-    name: "10-Hour Design Challenge",
-    sub: "one brief, one day",
-    href: IG_DOODLES,
-    image: "/work/doodle-challenge.jpg",
-    alt: "10-hour design challenge piece",
-    detail: {
-      summary:
-        "Given a brief and ten hours: spent around eight on the design and a good two hours fighting the details. Shipped anyway.",
-      gallery: [
-        { src: "/work/doodle-challenge.jpg", alt: "Design challenge outcome" },
-      ],
-      linkLabel: "view on instagram →",
     },
   },
   {

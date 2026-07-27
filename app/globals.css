@@ -605,6 +605,46 @@ footer .egg-hint {
     grid-template-columns: 1fr;
   }
 }
+
+/* ---------- avatar customizer ---------- */
+.avatar-customizer {
+  margin-top: 20px;
+  display: grid;
+  gap: 9px;
+}
+.cust-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  align-items: center;
+}
+.cust-row .cust-label {
+  font-family: var(--pix);
+  font-size: 9px;
+  letter-spacing: 0.1em;
+  color: var(--teal);
+  width: 52px;
+  flex: none;
+}
+.cust-row button {
+  font-family: var(--pix);
+  font-size: 9px;
+  letter-spacing: 0.05em;
+  padding: 6px 9px 4px;
+  border: 1px solid var(--hairline);
+  background: none;
+  color: var(--ink);
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.cust-row button:hover {
+  border-color: var(--ink);
+}
+.cust-row button.on {
+  background: var(--ink);
+  color: var(--paper);
+  border-color: var(--ink);
+}
 .stats {
   display: grid;
   gap: 11px;
