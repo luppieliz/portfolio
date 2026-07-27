@@ -6,16 +6,18 @@ import * as THREE from "three";
 const VW = 188;
 const VH = 216;
 
-/* flat-pixel fallback sprite — legend: k hair/ink · s skin · e eye ·
-   c coral (blush/shoes) · t teal shirt · g camera body · a lens · . empty */
+/* flat-pixel fallback sprite — explorer look. legend: k hair · s skin ·
+   e eye · c coral tee · o orange shorts · a yellow socks · w white shoes ·
+   p purple backpack strap · . empty */
 const PAL: Record<string, number> = {
-  k: 0x17150f,
+  k: 0x3a2416,
   s: 0xf0c08a,
   e: 0x17150f,
   c: 0xff5a48,
-  t: 0x0e6e64,
-  g: 0x3a362c,
+  o: 0xf0862c,
   a: 0xdce84b,
+  w: 0xfaf6ee,
+  p: 0x8b6fb0,
 };
 const FACE_OPEN = "kkssessssesskk";
 const ROWS = [
@@ -27,16 +29,16 @@ const ROWS = [
   "kksssssssssskk",
   "kkscsssssscskk",
   ".kssssssssssk.",
-  ".k.ssssssss.k.",
-  ".ksttttttttsk.",
-  ".kstttgggttsk.",
-  ".kstttgagttsk.",
-  "..stttttttts..",
-  "..aaaaaaaaaa..",
-  ".cccccccccccc.",
+  "..k.ssssss.k..",
+  "..ppccccccpp..",
+  "..cccccccccc..",
+  ".sccccccccccs.",
+  ".s.oooooooo.s.",
+  "...oooooooo...",
   "...ss....ss...",
-  "...cc....cc...",
-  "..ccc....ccc..",
+  "...aa....aa...",
+  "...ww....ww...",
+  "..www....www..",
 ];
 
 export default function VoxelAvatar() {
@@ -83,13 +85,15 @@ export default function VoxelAvatar() {
     scene.add(rim);
 
     const mats = {
-      hair: new THREE.MeshLambertMaterial({ color: 0x17150f }),
+      hair: new THREE.MeshLambertMaterial({ color: 0x3a2416 }),
       skin: new THREE.MeshLambertMaterial({ color: 0xf0c08a }),
       eye: new THREE.MeshLambertMaterial({ color: 0x17150f }),
-      coral: new THREE.MeshLambertMaterial({ color: 0xff5a48 }),
-      teal: new THREE.MeshLambertMaterial({ color: 0x0e6e64 }),
-      acid: new THREE.MeshLambertMaterial({ color: 0xdce84b }),
-      camb: new THREE.MeshLambertMaterial({ color: 0x3a362c }),
+      coral: new THREE.MeshLambertMaterial({ color: 0xff5a48 }), // tee
+      orange: new THREE.MeshLambertMaterial({ color: 0xf0862c }), // shorts
+      acid: new THREE.MeshLambertMaterial({ color: 0xdce84b }), // socks
+      white: new THREE.MeshLambertMaterial({ color: 0xfaf6ee }), // shoes
+      pack: new THREE.MeshLambertMaterial({ color: 0x8b6fb0 }), // backpack
+      packDark: new THREE.MeshLambertMaterial({ color: 0x6f57a0 }),
     };
     const group = new THREE.Group();
     const eyeMeshes: THREE.Mesh[] = [];
@@ -109,53 +113,39 @@ export default function VoxelAvatar() {
     }
     /* head + face */
     box(6, 6, 6, mats.skin, 0, 9.5, 0);
+    /* short explorer bob with straight bangs */
     box(6.7, 1.3, 6.7, mats.hair, 0, 12.5, 0); // crown
-    box(6.7, 7.6, 1.6, mats.hair, 0, 9.2, -2.8); // back of hair
-    box(6.4, 1.3, 0.8, mats.hair, 0, 11.9, 2.9); // fringe
+    box(6.7, 5.6, 1.7, mats.hair, 0, 9.2, -2.75); // back of bob (chin length)
+    box(6.3, 1.7, 1.0, mats.hair, 0, 11.7, 2.85); // full straight bangs
+    [-1, 1].forEach((sd) => {
+      box(1.3, 5.6, 4.4, mats.hair, sd * 3.35, 8.9, -0.2); // side hair to jaw
+    });
     eyeMeshes.push(box(1, 1.15, 0.3, mats.eye, -1.4, 9.7, 3.05));
     eyeMeshes.push(box(1, 1.15, 0.3, mats.eye, 1.4, 9.7, 3.05));
     box(0.8, 0.6, 0.25, mats.coral, -2.35, 8.55, 3.05); // blush
     box(0.8, 0.6, 0.25, mats.coral, 2.35, 8.55, 3.05);
     box(1.1, 0.4, 0.25, mats.coral, 0, 8.05, 3.05); // smile
-    /* long curly hair: side falls with stepped, wiggling curl cubes */
-    [-1, 1].forEach((sd) => {
-      box(1.5, 8.5, 2.4, mats.hair, sd * 3.55, 6.8, -0.4);
-      for (let i = 0; i < 4; i++) {
-        box(
-          1.45,
-          1.25,
-          1.9,
-          mats.hair,
-          sd * (3.55 + (i % 2 ? 0.5 : -0.4)),
-          2.25 - i * 1.15,
-          -0.4 + (i % 2 ? 0.45 : -0.35)
-        );
-      }
-    });
-    for (let j = 0; j < 5; j++) {
-      // wavy back hem
-      box(1.35, 1.3, 1.5, mats.hair, -2.6 + j * 1.3, 5.15 + (j % 2 ? 0.55 : 0), -2.95);
-    }
-    /* neck + colourful banded dress */
+    /* neck + explorer outfit: pink tee, orange shorts */
     box(1.7, 1.2, 1.7, mats.skin, 0, 6.1, 0);
-    box(4, 2.8, 2.6, mats.teal, 0, 4.2, 0); // bodice
-    box(4.5, 1.1, 3, mats.acid, 0, 2.5, 0); // waistband
-    box(5.2, 1.5, 3.5, mats.coral, 0, 1.2, 0); // skirt tier 1
-    box(6.1, 1.5, 4.1, mats.teal, 0, -0.3, 0); // skirt tier 2
-    box(7, 1.4, 4.7, mats.acid, 0, -1.75, 0); // hem
-    /* arms + sleeves */
+    box(4.2, 3.2, 2.7, mats.coral, 0, 4.3, 0); // t-shirt
+    box(4.4, 1.9, 2.9, mats.orange, 0, 2.15, 0); // shorts
+    /* short sleeves + bare arms */
     [-1, 1].forEach((sd) => {
-      box(1.6, 1.3, 1.8, mats.teal, sd * 2.9, 5.1, 0);
-      box(1.2, 3.6, 1.4, mats.skin, sd * 2.9, 2.75, 0);
+      box(1.7, 1.3, 1.9, mats.coral, sd * 2.95, 5.2, 0); // sleeve
+      box(1.2, 3.8, 1.4, mats.skin, sd * 2.95, 2.9, 0); // arm
     });
-    /* legs + shoes */
+    /* bare legs (tuck under shorts) + yellow socks + white shoes */
     [-1, 1].forEach((sd) => {
-      box(1.4, 2.4, 1.6, mats.skin, sd * 1.15, -3.55, 0);
-      box(1.7, 1, 2.3, mats.coral, sd * 1.15, -5.2, 0.25);
+      box(1.5, 5.0, 1.6, mats.skin, sd * 1.15, -1.75, 0);
+      box(1.6, 0.9, 1.7, mats.acid, sd * 1.15, -4.55, 0.05); // sock
+      box(1.75, 1, 2.3, mats.white, sd * 1.15, -5.35, 0.3); // shoe
     });
-    /* trusty camera */
-    box(2, 1.4, 1, mats.camb, 0, 4.15, 1.85);
-    box(0.75, 0.75, 0.6, mats.acid, 0, 4.15, 2.5);
+    /* purple backpack on her back + shoulder straps */
+    box(4.4, 3.4, 1.5, mats.pack, 0, 3.8, -2.0); // pack body
+    box(2.6, 1.9, 0.4, mats.packDark, 0, 3.4, -2.85); // front pocket
+    [-1, 1].forEach((sd) => {
+      box(0.6, 3.4, 0.5, mats.pack, sd * 1.5, 4.4, 1.45); // strap over chest
+    });
     group.position.y = -3.7; // center the figure in frame
     scene.add(group);
 
