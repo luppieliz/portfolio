@@ -1,5 +1,8 @@
 # Elizabeth Lee — Portfolio
 
+Everything is def vibe coded and AI will def replace my job 0.0
+what's crazy is that this was built in a few hours.
+
 "Pixel naturalist" design: paper/ink/coral/teal/acid palette, Fraunces
 display type, IBM Plex Mono body, Silkscreen micro-labels. Voxel avatar
 (three.js) with stat bars, pixelated work thumbnails that de-rez on
